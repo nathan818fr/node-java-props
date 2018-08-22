@@ -11,6 +11,10 @@
     "reader",
     "parser"
   ],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/nathan818fr/node-java-props.git"
+  },
   "main": "dist/java-props.js",
   "scripts": {
     "build": "npm run clean && npm run build-ts && npm run tslint",
