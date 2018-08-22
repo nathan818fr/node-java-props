@@ -1,0 +1,34 @@
+{
+  "name": "java-props",
+  "version": "1.0.0",
+  "description": "Read Java .properties files (using the same specification), without useless additional features.",
+  "author": "Nathan Poirier <nathan@poirier.io>",
+  "license": "MIT",
+  "keywords": [
+    "java",
+    "properties",
+    "java-properties",
+    "reader",
+    "parser"
+  ],
+  "main": "dist/java-props.js",
+  "scripts": {
+    "build": "npm run clean && npm run build-ts && npm run tslint",
+    "build-ts": "tsc",
+    "clean": "trash dist",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "test": "jest --forceExit --detectOpenHandles --coverage --verbose",
+    "watch-test": "npm run test -- --watchAll",
+    "release": "npm run test && npm run build && np"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.7.1",
+    "jest": "^23.5.0",
+    "np": "^3.0.4",
+    "trash-cli": "^1.4.0",
+    "ts-jest": "^23.1.4",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
+  }
+}
