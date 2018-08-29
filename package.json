@@ -5,7 +5,11 @@
   "author": "Nathan Poirier <nathan@poirier.io>",
   "license": "MIT",
   "keywords": [
-    "java", "properties", "java-properties", "reader", "parser"
+    "java",
+    "properties",
+    "java-properties",
+    "reader",
+    "parser"
   ],
   "repository": {
     "type": "git",
