@@ -3,6 +3,9 @@
 Read/Parse Java .properties files (using the same [specification](https://docs.oracle.com/javase/10/docs/api/java/util/Properties.html#load%28java.io.Reader%29))
 in Javascript / Node.js.
 
+Note for TypeScript users:
+This module build and provide its TypeScript declarations files (.d.ts).
+
 ## Getting Started
 
 **Node.js** &middot; Install the module with:
