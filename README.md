@@ -60,6 +60,12 @@ Parses a .properties string, constructing a corresponding JavaScript object.
 | --- | --- | --- |
 | str | <code>String</code> | The string to parse as .properties |
 
+**Example**
+```js
+const props = javaProps.parse('foo=Hello\nbar=World');
+console.log(props.foo + ' ' + props.bar);
+// "Hello World"
+```
 <a name="javaProps.parseFile"></a>
 
 #### javaProps.parseFile(path, [encoding]) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -71,6 +77,28 @@ Parses a .properties file, constructing a corresponding JavaScript object.
 | --- | --- | --- | --- |
 | path | <code>String</code> \| <code>Buffer</code> \| <code>URL</code> \| <code>number</code> |  | Filename or file descriptor |
 | [encoding] | <code>String</code> | <code>utf8</code> | File encoding |
+
+**Example**
+```js
+javaProps.parseFile('./foobar.properties').then((props) => {
+    console.log(props.foo + ' ' + props.bar);
+    // "Hello World"
+}).catch((err) => {
+    console.error(err);
+});
+```
+*- or with async/await -*
+```js
+async function fct() {
+    try {
+        const props = await javaProps.parseFile('./foobar.properties');
+        console.log(props.foo + ' ' + props.bar);
+        // "Hello World"
+    } catch (err) {
+        console.error(err);
+    }
+}
+```
 <!-- jsdoc2md end -->
 
 ## Building
