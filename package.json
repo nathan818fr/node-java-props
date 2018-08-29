@@ -14,7 +14,7 @@
   "main": "dist/node-java-props.js",
   "browser": "dist/java-props.js",
   "scripts": {
-    "build": "npm run clean && npm run build-ts && npm run tslint",
+    "build": "npm run clean && npm run tslint && npm run build-ts",
     "build-ts": "tsc",
     "clean": "trash dist",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
