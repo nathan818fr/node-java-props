@@ -23,7 +23,7 @@
   "multiline2": "with spaces",
   "multiline3": "testingis cool\nalways=multiline",
   "not-multiline": "value",
-  "key-only": "key-only",
-  "key-only-w-spaces1": "key-only-w-spaces1",
-  "key-only-w-spaces2": "key-only-w-spaces2"
+  "key-only": "",
+  "key-only-w-spaces1": "",
+  "key-only-w-spaces2": ""
 }

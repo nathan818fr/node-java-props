@@ -10,7 +10,7 @@ export function parse(str: string): Properties {
     let line;
     while ((line = lr.readLine()) !== undefined) {
         let keyLen = 0;
-        let valueStart = 0;
+        let valueStart = line.length;
         let hasSep = false;
         let backslash = false;
 
