@@ -101,7 +101,7 @@ codestyle yet, so look at the existing sources and do the same.
 
 The goal is to keep a simple project without unnecessary (non essential)
 features.
-Don't hesitate to open an issue before to discuss about you idea.
+Don't hesitate to open an issue before to discuss about your idea.
 
 ## Versioning
 
