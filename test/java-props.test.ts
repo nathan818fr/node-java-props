@@ -1,14 +1,11 @@
 import fs from 'fs';
-import {promisify} from 'util';
 import JavaProps from '../src/java-props';
 import {convertLine} from '../src/utils';
 
-const readFile = promisify(fs.readFile);
-
 describe('parse', () => {
     it('validate test.properties', async () => {
-        const res = JSON.parse(await readFile(__dirname + '/test.properties-result.json', 'utf8'));
-        const props = await JavaProps.parse(await readFile(__dirname + '/test.properties', 'utf8'));
+        const res = JSON.parse(fs.readFileSync(__dirname + '/test.properties-result.json', 'utf8'));
+        const props = await JavaProps.parse(fs.readFileSync(__dirname + '/test.properties', 'utf8'));
         expect(props).toEqual(res);
     });
 
