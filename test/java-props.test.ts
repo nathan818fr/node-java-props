@@ -1,45 +1,34 @@
 import fs from 'fs';
-import javaProps from '../src/java-props';
+import {promisify} from 'util';
+import JavaProps from '../src/java-props';
 import {convertLine} from '../src/utils';
 
-it('utility class can\'t be instantiated', () => {
-    // @ts-ignore
-    expect(() => new javaProps()).toThrow(Error);
-});
+const readFile = promisify(fs.readFile);
 
-describe('load', () => {
+describe('parse', () => {
     it('validate test.properties', async () => {
-        const res = JSON.parse(await fs.readFileSync(__dirname + '/test.properties-result.json', 'utf8'));
-        const props = await javaProps.loadFile(__dirname + '/test.properties');
+        const res = JSON.parse(await readFile(__dirname + '/test.properties-result.json', 'utf8'));
+        const props = await JavaProps.parse(await readFile(__dirname + '/test.properties', 'utf8'));
         expect(props).toEqual(res);
     });
 
-    it('test escaped crlf', () => {
-        expect(javaProps.loadString('abc=123\\\r\ndef=456')).toEqual({abc: '123def=456'});
+    it('must escape crlf', () => {
+        expect(JavaProps.parse('abc=123\\\r\ndef=456')).toEqual({abc: '123def=456'});
+        expect(JavaProps.parse('abc=123\\\rdef=456')).toEqual({abc: '123def=456'});
     });
 
-    it('test escaped eof', () => {
-        expect(javaProps.loadString('\\')).toEqual({});
-        expect(javaProps.loadString('key=value\\')).toEqual({key: 'value'});
+    it('must ignore escaped eof', () => {
+        expect(JavaProps.parse('\\')).toEqual({});
+        expect(JavaProps.parse('key=value\\')).toEqual({key: 'value'});
     });
 
-    it('test empty last line', () => {
-        expect(javaProps.loadString('')).toEqual({});
-        expect(javaProps.loadString('\n')).toEqual({});
-        expect(javaProps.loadString('\n   ')).toEqual({});
-        expect(javaProps.loadString('key=value\n')).toEqual({key: 'value'});
-        expect(javaProps.loadString('key=value\n   ')).toEqual({key: 'value'});
-        expect(javaProps.loadString('key=value\n# comment')).toEqual({key: 'value'});
-    });
-
-    it('must throw on read error', async () => {
-        let err;
-        try {
-            await javaProps.loadFile(__dirname + '/nonexistent-file.properties');
-        } catch (e) {
-            err = e;
-        }
-        expect(err).toBeDefined();
+    it('must ignore empty last line', () => {
+        expect(JavaProps.parse('')).toEqual({});
+        expect(JavaProps.parse('\n')).toEqual({});
+        expect(JavaProps.parse('\n   ')).toEqual({});
+        expect(JavaProps.parse('key=value\n')).toEqual({key: 'value'});
+        expect(JavaProps.parse('key=value\n   ')).toEqual({key: 'value'});
+        expect(JavaProps.parse('key=value\n# comment')).toEqual({key: 'value'});
     });
 });
 

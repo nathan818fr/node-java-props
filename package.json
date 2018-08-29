@@ -5,17 +5,14 @@
   "author": "Nathan Poirier <nathan@poirier.io>",
   "license": "MIT",
   "keywords": [
-    "java",
-    "properties",
-    "java-properties",
-    "reader",
-    "parser"
+    "java", "properties", "java-properties", "reader", "parser"
   ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/nathan818fr/node-java-props.git"
+    "type": "git",
+    "url": "https://github.com/nathan818fr/node-java-props.git"
   },
-  "main": "dist/java-props.js",
+  "main": "dist/node-java-props.js",
+  "browser": "dist/java-props.js",
   "scripts": {
     "build": "npm run clean && npm run build-ts && npm run tslint",
     "build-ts": "tsc",
