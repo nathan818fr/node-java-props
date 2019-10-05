@@ -1,5 +1,5 @@
 import fs from 'fs';
-import {Properties, parse} from './java-props';
+import {Properties, parse, stringify} from './java-props';
 
 export * from './java-props';
 
@@ -23,4 +23,5 @@ export function parseFile(path: string | Buffer | URL | number, encoding?: strin
 export default {
     parse,
     parseFile,
+    stringify,
 };
