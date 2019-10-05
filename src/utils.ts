@@ -27,7 +27,7 @@ export function decodeLine(line: string): string {
 }
 
 export function encodeLine(line: string, isKey?: boolean): string {
-    line = line.replace(isKey ? ENCODE_KEY_PATTERN : ENCODE_PATTERN, (c) => {
+    let str = line.replace(isKey ? ENCODE_KEY_PATTERN : ENCODE_PATTERN, (c) => {
         if (c === '\t') {
             return '\\t';
         } else if (c === '\r') {
@@ -47,12 +47,12 @@ export function encodeLine(line: string, isKey?: boolean): string {
         }
     });
     if (!isKey) {
-        const c = line.charAt(0);
+        const c = str.charAt(0);
         if (c === ' ' || c === '\t' || c === '\f') {
-            line = '\\' + line;
+            str = '\\' + str;
         }
     }
-    return line;
+    return str;
 }
 
 /**
