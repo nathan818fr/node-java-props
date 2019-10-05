@@ -37,10 +37,8 @@ javaProps.parseFile('./file.properties').then((props) => {
 ## Documentation
 
 <!-- jsdoc2md start -->
-<a name="javaProps"></a>
-
 ### javaProps
-**Example**
+**Example**  
 ```js
 const javaProps = require('java-props');
 ```
@@ -48,19 +46,20 @@ const javaProps = require('java-props');
 * [javaProps](#javaProps)
     * [.parse(str)](#javaProps.parse) ⇒ <code>Object</code>
     * [.parseFile(path, [encoding])](#javaProps.parseFile) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.stringify(props)](#javaProps.stringify) ⇒ <code>String</code>
 
 <a name="javaProps.parse"></a>
 
 #### javaProps.parse(str) ⇒ <code>Object</code>
 Parses a .properties string, constructing a corresponding JavaScript object.
 
-**Returns**: <code>Object</code> - The [Object](Object) corresponding to the given string
+**Returns**: <code>Object</code> - The [Object](Object) corresponding to the given string  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | str | <code>String</code> | The string to parse as .properties |
 
-**Example**
+**Example**  
 ```js
 const props = javaProps.parse('foo=Hello\nbar=World');
 console.log(props.foo + ' ' + props.bar);
@@ -71,14 +70,14 @@ console.log(props.foo + ' ' + props.bar);
 #### javaProps.parseFile(path, [encoding]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Parses a .properties file, constructing a corresponding JavaScript object.
 
-**Returns**: <code>Promise.&lt;Object&gt;</code> - The [Object](Object) corresponding to the given string
+**Returns**: <code>Promise.&lt;Object&gt;</code> - The [Object](Object) corresponding to the given string  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | path | <code>String</code> \| <code>Buffer</code> \| <code>URL</code> \| <code>number</code> |  | Filename or file descriptor |
 | [encoding] | <code>String</code> | <code>utf8</code> | File encoding |
 
-**Example**
+**Example**  
 ```js
 javaProps.parseFile('./foobar.properties').then((props) => {
     console.log(props.foo + ' ' + props.bar);
@@ -98,6 +97,23 @@ async function fct() {
         console.error(err);
     }
 }
+```
+<a name="javaProps.stringify"></a>
+
+#### javaProps.stringify(props) ⇒ <code>String</code>
+Convert a JavaScript object to the corresponding .properties string.
+
+**Returns**: <code>String</code> - The .properties string corresponding to the given JavaScript object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| props | <code>Object</code> | The JavaScript object to convert |
+
+**Example**  
+```js
+const str = javaProps.stringify({'foo': 'Hello', 'bar': 'World'});
+console.log(str);
+// "foo: Hello\nbar: World\n"
 ```
 <!-- jsdoc2md end -->
 

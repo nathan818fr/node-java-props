@@ -46,4 +46,17 @@ const javaProps = {
      */
     parseFile: function (path, encoding) {
     },
+
+    /**
+     * Convert a JavaScript object to the corresponding .properties string.
+     *
+     * @param {Object} props The JavaScript object to convert
+     * @return {String} The .properties string corresponding to the given JavaScript object
+     * @example
+     * const str = javaProps.stringify({'foo': 'Hello', 'bar': 'World'});
+     * console.log(str);
+     * // "foo: Hello\nbar: World\n"
+     */
+    stringify: function (props) {
+    },
 };
