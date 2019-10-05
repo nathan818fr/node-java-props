@@ -1,10 +1,13 @@
-const CONVERT_RXP = /(?:\\u(.{0,4})|\\(.?))/g;
-const UNICODE_RXP = /^[0-9a-fA-F]{4}$/;
+const DECODE_PATTERN = /(?:\\u(.{0,4})|\\(.?))/g;
+const UNICODE_PATTERN = /^[0-9a-fA-F]{4}$/;
 
-export function convertLine(line: string): string {
-    return line.replace(CONVERT_RXP, (_, unicode, char) => {
+const ENCODE_PATTERN = /(?:[\u0000-\u001F\\\u007F-\uFFFF])/g;
+const ENCODE_KEY_PATTERN = /(?:[\u0000-\u0020!#:=\\\u007F-\uFFFF])/g; // ENCODE_PATTERN with separators + comments
+
+export function decodeLine(line: string): string {
+    return line.replace(DECODE_PATTERN, (_, unicode, char) => {
         if (unicode !== undefined) {
-            if (!unicode.match(UNICODE_RXP)) {
+            if (!unicode.match(UNICODE_PATTERN)) {
                 throw new Error('Malformed \\uxxxx encoding.');
             }
             const charVal = parseInt(unicode, 16);
@@ -22,6 +25,40 @@ export function convertLine(line: string): string {
         }
     });
 }
+
+export function encodeLine(line: string, isKey?: boolean): string {
+    line = line.replace(isKey ? ENCODE_KEY_PATTERN : ENCODE_PATTERN, (c) => {
+        if (c === '\t') {
+            return '\\t';
+        } else if (c === '\r') {
+            return '\\r';
+        } else if (c === '\n') {
+            return '\\n';
+        } else if (c === '\f') {
+            return '\\f';
+        } else if (c >= ' ' && c <= '~') {
+            return '\\' + c;
+        } else {
+            const code = c.charCodeAt(0);
+            if (code < 16) return '\\u000' + code.toString(16).toUpperCase();
+            if (code < 256) return '\\u00' + code.toString(16).toUpperCase();
+            if (code < 4096) return '\\u0' + code.toString(16).toUpperCase();
+            return '\\u' + code.toString(16).toUpperCase();
+        }
+    });
+    if (!isKey) {
+        const c = line.charAt(0);
+        if (c === ' ' || c === '\t' || c === '\f') {
+            line = '\\' + line;
+        }
+    }
+    return line;
+}
+
+/**
+ * @deprecated Use {@link #decodeLine}.
+ */
+export const convertLine = decodeLine;
 
 export class LineReader {
     private readonly str: string;
