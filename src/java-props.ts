@@ -52,7 +52,7 @@ export function parse(str: string): Properties {
     return result;
 }
 
-export function stringify(props: Properties): string { // TODO: Add unit-tests
+export function stringify(props: Properties): string {
     let str = '';
     for (const key in props) {
         if (Object.prototype.hasOwnProperty.call(props, key)) {

@@ -12,7 +12,7 @@ const CommonJavaPropsR = require('../src/java-props');
 
 apis.common = {
     modules: [CommonJavaProps, CommonJavaPropsW, CommonJavaPropsR],
-    methods: ['parse'],
+    methods: ['parse', 'stringify'],
 };
 
 // node
