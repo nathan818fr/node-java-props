@@ -1,6 +1,6 @@
 {
   "name": "java-props",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Read Java .properties files (using the same specification), without useless additional features.",
   "author": "Nathan Poirier <nathan@poirier.io>",
   "license": "MIT",
