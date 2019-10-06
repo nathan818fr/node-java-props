@@ -65,4 +65,5 @@ export function stringify(props: Properties): string { // TODO: Add unit-tests
 
 export default {
     parse,
+    stringify,
 };
