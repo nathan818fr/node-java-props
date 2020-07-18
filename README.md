@@ -1,4 +1,4 @@
-# java-props &middot; [![Build Status](https://travis-ci.org/nathan818fr/node-java-props.svg?branch=master)](https://travis-ci.org/nathan818fr/node-java-props) [![codecov](https://codecov.io/gh/nathan818fr/node-java-props/branch/master/graph/badge.svg)](https://codecov.io/gh/nathan818fr/node-java-props) [![npm version](https://badge.fury.io/js/java-props.svg)](https://badge.fury.io/js/java-props)
+# java-props &middot; [![Build Status](https://travis-ci.com/nathan818fr/node-java-props.svg?branch=master)](https://travis-ci.com/nathan818fr/node-java-props) [![codecov](https://codecov.io/gh/nathan818fr/node-java-props/branch/master/graph/badge.svg)](https://codecov.io/gh/nathan818fr/node-java-props) [![npm version](https://badge.fury.io/js/java-props.svg)](https://badge.fury.io/js/java-props)
 
 Read/Parse Java .properties files (using the same [specification](https://docs.oracle.com/javase/10/docs/api/java/util/Properties.html#load%28java.io.Reader%29))
 in Javascript / Node.js.
