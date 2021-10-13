@@ -1,6 +1,4 @@
 /**
- * @example
- * const javaProps = require('java-props');
  */
 const javaProps = {
     /**

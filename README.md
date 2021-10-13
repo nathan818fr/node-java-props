@@ -1,19 +1,22 @@
-# java-props &middot; [![Build Status](https://travis-ci.com/nathan818fr/node-java-props.svg?branch=master)](https://travis-ci.com/nathan818fr/node-java-props) [![codecov](https://codecov.io/gh/nathan818fr/node-java-props/branch/master/graph/badge.svg)](https://codecov.io/gh/nathan818fr/node-java-props) [![npm version](https://badge.fury.io/js/java-props.svg)](https://badge.fury.io/js/java-props)
+# java-props
 
-Read/Parse Java .properties files (using the same [specification](https://docs.oracle.com/javase/10/docs/api/java/util/Properties.html#load%28java.io.Reader%29))
-in Javascript / Node.js.
+[![npm version](https://img.shields.io/npm/v/java-props.svg)](https://www.npmjs.com/package/java-props)
+![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)
+[![Build Status](https://app.travis-ci.com/nathan818fr/node-java-props.svg?branch=master)](https://app.travis-ci.com/nathan818fr/node-java-props)
+[![codecov](https://codecov.io/gh/nathan818fr/node-java-props/branch/master/graph/badge.svg)](https://codecov.io/gh/nathan818fr/node-java-props)
 
-Note for TypeScript users:
-This module build and provide its TypeScript declarations files (.d.ts).
+Read/Parse Java .properties files (using EXACTLY the same [specification](https://docs.oracle.com/javase/10/docs/api/java/util/Properties.html#load%28java.io.Reader%29)) in Javascript (browser) and Node.js.
 
-## Getting Started
+This module provides its own TypeScript declarations (.d.ts).
 
-**Node.js** &middot; Install the module with:
-```sh
-npm i --save java-props
+## Installation
+
+```bash
+npm install java-props
 ```
 
-### Quick Example
+## Example
+
 ```properties
 # file.properties
 a = Hello World
@@ -23,25 +26,23 @@ d=foo\
   bar
 ```
 
-```
+```javascript
 const javaProps = require('java-props');
 
-javaProps.parseFile('./file.properties').then((props) => {
-    console.log(props);
-    // { a: 'Hello World', b: 'Node.js®', c: 'value', d: 'foobar' }
-}).catch((err) => {
-    console.error(err)
-});
+javaProps
+    .parseFile('./file.properties')
+    .then((props) => {
+        console.log(props);
+        // { a: 'Hello World', b: 'Node.js®', c: 'value', d: 'foobar' }
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 ```
 
 ## Documentation
 
 <!-- jsdoc2md start -->
-### javaProps
-**Example**  
-```js
-const javaProps = require('java-props');
-```
 
 * [javaProps](#javaProps)
     * [.parse(str)](#javaProps.parse) ⇒ <code>Object</code>
@@ -50,7 +51,7 @@ const javaProps = require('java-props');
 
 <a name="javaProps.parse"></a>
 
-#### javaProps.parse(str) ⇒ <code>Object</code>
+### javaProps.parse(str) ⇒ <code>Object</code>
 Parses a .properties string, constructing a corresponding JavaScript object.
 
 **Returns**: <code>Object</code> - The [Object](Object) corresponding to the given string  
@@ -67,7 +68,7 @@ console.log(props.foo + ' ' + props.bar);
 ```
 <a name="javaProps.parseFile"></a>
 
-#### javaProps.parseFile(path, [encoding]) ⇒ <code>Promise.&lt;Object&gt;</code>
+### javaProps.parseFile(path, [encoding]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Parses a .properties file, constructing a corresponding JavaScript object.
 
 **Returns**: <code>Promise.&lt;Object&gt;</code> - The [Object](Object) corresponding to the given string  
@@ -100,7 +101,7 @@ async function fct() {
 ```
 <a name="javaProps.stringify"></a>
 
-#### javaProps.stringify(props) ⇒ <code>String</code>
+### javaProps.stringify(props) ⇒ <code>String</code>
 Convert a JavaScript object to the corresponding .properties string.
 
 **Returns**: <code>String</code> - The .properties string corresponding to the given JavaScript object  
@@ -115,51 +116,53 @@ const str = javaProps.stringify({'foo': 'Hello', 'bar': 'World'});
 console.log(str);
 // "foo: Hello\nbar: World\n"
 ```
+
 <!-- jsdoc2md end -->
 
 ## Building
 
 This project uses TypeScript. To create javascript sources run:
+
 ```sh
 yarn run build
 ```
 
 To generate the documentation, edit `documentation.js` then run:
+
 ```sh
-# yarn install -g jsdoc-to-markdown
+# npm install -g jsdoc-to-markdown
 jsdoc2md --partial doc/scope.hbs --files doc/documentation.js --heading-depth 3 | xclip -selection c
 ```
+
 and copy the result inside this README.
 
 ## Testing
 
-Run the unit tests (no need to run build before, they use the typescript files):
-```sh
-yarn run test
+To run the test suite, first install the dependencies, then run `yarn test`:
+
+```bash
+yarn install
+yarn test
 ```
 
 ## Contributing
 
-Contributions are welcome. Unfortunately there is no documentation on the
-codestyle yet, so look at the existing sources and do the same.
+Contributions are welcome.
 
-The goal is to keep a simple project without unnecessary (non essential)
-features.
-Don't hesitate to open an issue before to discuss about your idea.
+The goal is to keep a simple project without unnecessary (non essential) features.
+It is recommended to open an issue before introducing new features to discuss them.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available,
-see the [tags on this repository](https://github.com/nathan818fr/node-java-props/tags).
+We use [SemVer](http://semver.org/) for versioning.
+For the versions available, see the [tags on this repository](https://github.com/nathan818fr/node-java-props/tags).
 
 ## Authors
 
-- [Nathan Poirier](https://github.com/nathan818fr) - Initial version
+-   [Nathan Poirier](https://github.com/nathan818fr) - Initial version
 
-See also the list of [contributors](https://github.com/nathan818fr/node-java-props/contributors)
-who participated in this project.
+See also the list of [contributors](https://github.com/nathan818fr/node-java-props/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE)
-file for details.
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
