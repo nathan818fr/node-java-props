@@ -1,14 +1,16 @@
 language: node_js
 node_js:
+- "16"
 - "14"
 - "12"
 - "10"
 - "8"
 - "6"
 install:
-- npm install
+- npm install -g yarn
 - npm install -g codecov
+- yarn install
 script:
-- npm run test
-- codecov
-- npm run build
+- yarn run test
+- '[[ "$(node -v)" == v6.* ]] && echo skip || codecov'
+- yarn run build
