@@ -2,12 +2,24 @@ import fs from 'fs';
 import JavaProps from '../src/java-props';
 import {decodeLine, encodeLine} from '../src/utils';
 
+const dataFiles = [
+    'testData0.properties',
+    'testData1.properties',
+    'testData1.dos.properties',
+    'testData2.properties',
+    'testData2.dos.properties',
+    'testData3.dos.properties',
+    'testData4.properties',
+];
+
 describe('parse', () => {
-    it('validate test.properties', async () => {
-        const res = JSON.parse(fs.readFileSync(__dirname + '/test.properties-result.json', 'utf8'));
-        const props = JavaProps.parse(fs.readFileSync(__dirname + '/test.properties', 'utf8'));
-        expect(props).toEqual(res);
-    });
+    for (const file of dataFiles) {
+        it('validate ' + file, async () => {
+            const res = JSON.parse(fs.readFileSync(__dirname + '/data/' + file.replace('.dos', '') + '-result.json', 'utf8'));
+            const props = JavaProps.parse(fs.readFileSync(__dirname + '/data/' + file, 'utf8'));
+            expect(props).toEqual(res);
+        });
+    }
 
     it('must escape crlf', () => {
         expect(JavaProps.parse('abc=123\\\r\ndef=456')).toEqual({abc: '123def=456'});
@@ -35,9 +47,11 @@ describe('stringify', () => {
         expect(newProps).toEqual(props);
     };
 
-    it('convert back test.properties', async () => {
-        expectConvertBack(JavaProps.parse(fs.readFileSync(__dirname + '/test.properties', 'utf8')));
-    });
+    for (const file of dataFiles) {
+        it('convert back ' + file, async () => {
+            expectConvertBack(JavaProps.parse(fs.readFileSync(__dirname + '/data/' + file, 'utf8')));
+        });
+    }
 
     it('must handle spacings', async () => {
         expectConvertBack({' key': 'value'});

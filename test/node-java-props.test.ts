@@ -2,9 +2,10 @@ import fs from 'fs';
 import JavaProps from '../src/node-java-props';
 
 describe('parseFile', () => {
-    it('read and validate test.properties', async () => {
-        const res = JSON.parse(fs.readFileSync(__dirname + '/test.properties-result.json', 'utf8'));
-        const props = await JavaProps.parseFile(__dirname + '/test.properties', 'utf8');
+    const file = 'testData0.properties';
+    it('read and validate ' + file, async () => {
+        const res = JSON.parse(fs.readFileSync(__dirname + '/data/' + file + '-result.json', 'utf8'));
+        const props = await JavaProps.parseFile(__dirname + '/data/' + file, 'utf8');
         expect(props).toEqual(res);
     });
 
