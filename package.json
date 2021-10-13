@@ -15,6 +15,9 @@
     "type": "git",
     "url": "https://github.com/nathan818fr/node-java-props.git"
   },
+  "files": [
+    "dist/**"
+  ],
   "main": "dist/node-java-props.js",
   "browser": "dist/java-props.js",
   "scripts": {
