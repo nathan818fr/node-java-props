@@ -21,22 +21,24 @@
   "main": "dist/node-java-props.js",
   "browser": "dist/java-props.js",
   "scripts": {
-    "build": "yarn run clean && yarn run tslint && yarn run build-ts",
-    "build-ts": "tsc",
-    "clean": "rimraf dist",
-    "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "test": "jest --forceExit --coverage --verbose",
-    "watch-test": "yarn run test -- --watchAll",
-    "release": "yarn run test && yarn run build && np"
+    "clean": "rimraf ./dist",
+    "build": "yarn run clean && yarn run build:ts",
+    "build:ts": "tsc",
+    "lint": "tslint -c ./tslint.json -p ./tsconfig.json",
+    "test": "jest --coverage --verbose",
+    "test:watch": "yarn run test -- --watchAll",
+    "release": "yarn run lint && yarn run build && np"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.11",
     "jest": "^24.9.0",
-    "np": "^6.3.2",
-    "rimraf": "^3.0.0",
-    "ts-jest": "^24.1.0",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "rimraf": "^3.0.2",
+    "ts-jest": "^24.3.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.9.10"
+  },
+  "resolutions": {
+    "stack-utils": "1.0.2"
   }
 }
