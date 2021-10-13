@@ -121,12 +121,12 @@ console.log(str);
 
 This project uses TypeScript. To create javascript sources run:
 ```sh
-npm run build
+yarn run build
 ```
 
 To generate the documentation, edit `documentation.js` then run:
 ```sh
-# npm install -g jsdoc-to-markdown
+# yarn install -g jsdoc-to-markdown
 jsdoc2md --partial doc/scope.hbs --files doc/documentation.js --heading-depth 3 | xclip -selection c
 ```
 and copy the result inside this README.
@@ -135,7 +135,7 @@ and copy the result inside this README.
 
 Run the unit tests (no need to run build before, they use the typescript files):
 ```sh
-npm run test
+yarn run test
 ```
 
 ## Contributing

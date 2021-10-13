@@ -21,13 +21,13 @@
   "main": "dist/node-java-props.js",
   "browser": "dist/java-props.js",
   "scripts": {
-    "build": "npm run clean && npm run tslint && npm run build-ts",
+    "build": "yarn run clean && yarn run tslint && yarn run build-ts",
     "build-ts": "tsc",
     "clean": "rimraf dist",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "test": "jest --forceExit --coverage --verbose",
-    "watch-test": "npm run test -- --watchAll",
-    "release": "npm run test && npm run build && np"
+    "watch-test": "yarn run test -- --watchAll",
+    "release": "yarn run test && yarn run build && np"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
