@@ -15,7 +15,9 @@ const dataFiles = [
 describe('parse', () => {
     for (const file of dataFiles) {
         it('validate ' + file, async () => {
-            const res = JSON.parse(fs.readFileSync(__dirname + '/data/' + file.replace('.dos', '') + '-result.json', 'utf8'));
+            const res = JSON.parse(
+                fs.readFileSync(__dirname + '/data/' + file.replace('.dos', '') + '-result.json', 'utf8')
+            );
             const props = JavaProps.parse(fs.readFileSync(__dirname + '/data/' + file, 'utf8'));
             expect(props).toEqual(res);
         });
@@ -55,14 +57,14 @@ describe('stringify', () => {
 
     it('must handle spacings', async () => {
         expectConvertBack({' key': 'value'});
-        expectConvertBack({'key': ' value'});
+        expectConvertBack({key: ' value'});
         expectConvertBack({'key ': 'value'});
-        expectConvertBack({'key': 'value '});
+        expectConvertBack({key: 'value '});
         expectConvertBack({'  ke:y=  ': ' =  \\nval\\ue\n   '});
     });
 
     it('must skip non-own properties', async () => {
-        const obj = {'key': 'value'};
+        const obj = {key: 'value'};
         (Object.prototype as any).notAKey = 'x';
         expect(JavaProps.stringify(obj)).toBe('key: value\n');
     });
@@ -123,7 +125,9 @@ for (const isKey of [false, true]) {
             if (converts.hasOwnProperty(char)) {
                 const repl = converts[char];
                 it('must encode \\' + char, () => {
-                    expect(encodeLine('abc' + repl + 'def' + repl + 'ghi')).toBe('abc\\' + char + 'def\\' + char + 'ghi');
+                    expect(encodeLine('abc' + repl + 'def' + repl + 'ghi')).toBe(
+                        'abc\\' + char + 'def\\' + char + 'ghi'
+                    );
                 });
             }
         }
