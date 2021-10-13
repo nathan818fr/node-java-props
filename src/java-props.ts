@@ -5,7 +5,7 @@ export interface Properties {
 }
 
 export function parse(str: string): Properties {
-    const result: Properties = {};
+    const result: Properties = Object.create(null);
     const lr = new LineReader(str);
     let line;
     while ((line = lr.readLine()) !== undefined) {
