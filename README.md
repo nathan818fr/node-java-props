@@ -52,15 +52,6 @@ This project uses TypeScript. To create javascript sources run:
 yarn run build
 ```
 
-To generate the documentation, use typedoc:
-
-```sh
-npm install -g typedoc
-typedoc
-```
-
-and copy the result inside this README.
-
 ## Testing
 
 To run the test suite, first install the dependencies, then run `yarn test`:
