@@ -42,7 +42,8 @@ javaProps
 
 ## Documentation
 
-For detailed API Documentation, see: [https://nathan818fr.github.io/node-java-props/modules.html](https://nathan818fr.github.io/node-java-props/modules.html)
+For a detailed API reference, see:
+[node-java-props.nathan818.fr](https://node-java-props.nathan818.fr/modules.html)
 
 ## Building
 
@@ -75,10 +76,9 @@ For the versions available, see the [tags on this repository](https://github.com
 
 ## Authors
 
--   [Nathan Poirier](https://github.com/nathan818fr) - Initial version
-
-See also the list of [contributors](https://github.com/nathan818fr/node-java-props/contributors) who participated in this project.
+-   [Nathan Poirier](https://github.com/nathan818fr) &lt;nathan@poirier.io&gt;
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License.
+See the [LICENSE](https://github.com/nathan818fr/node-java-props/blob/master/LICENSE) file for details.
