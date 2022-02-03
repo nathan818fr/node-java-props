@@ -4,6 +4,60 @@ const UNICODE_PATTERN = /^[0-9a-fA-F]{4}$/;
 const ENCODE_PATTERN = /(?:[\u0000-\u001F\\\u007F-\uFFFF])/g;
 const ENCODE_KEY_PATTERN = /(?:[\u0000-\u0020!#:=\\\u007F-\uFFFF])/g; // ENCODE_PATTERN with separators + comments
 
+export interface ParsedLine {
+    line: string;
+    sepStart: number;
+    valueStart: number;
+}
+
+export function rawParse(str: string, consumeFn: (res: ParsedLine) => void): void {
+    const lr = new LineReader(str);
+    let line;
+    while ((line = lr.readLine()) !== undefined) {
+        consumeFn(rawParseLine(line));
+    }
+}
+
+export function rawParseLine(line: string): ParsedLine {
+    let keyLen = 0;
+    let valueStart = line.length;
+    let hasSep = false;
+    let backslash = false;
+
+    const lineLen = line.length;
+    let pos = 0;
+    for (; pos < lineLen; pos++) {
+        const c = line[pos];
+        if ((c === '=' || c === ':') && !backslash) {
+            valueStart = keyLen + 1;
+            hasSep = true;
+            break;
+        } else if ((c === ' ' || c === '\t' || c === '\f') && !backslash) {
+            valueStart = keyLen + 1;
+            break;
+        }
+        if (c === '\\') {
+            backslash = !backslash;
+        } else {
+            backslash = false;
+        }
+        keyLen++;
+    }
+    while (valueStart < lineLen) {
+        const c = line[valueStart];
+        if (c !== ' ' && c !== '\t' && c !== '\f') {
+            if (!hasSep && (c === '=' || c === ':')) {
+                hasSep = true;
+            } else {
+                break;
+            }
+        }
+        valueStart++;
+    }
+
+    return {line, sepStart: keyLen, valueStart};
+}
+
 export function decodeLine(line: string): string {
     return line.replace(DECODE_PATTERN, (_, unicode, char) => {
         if (unicode !== undefined) {
@@ -61,9 +115,9 @@ export function encodeLine(line: string, isKey?: boolean): string {
 export const convertLine = decodeLine;
 
 export class LineReader {
-    private readonly str: string;
-    private readonly strLen: number;
-    private pos = 0;
+    public readonly str: string;
+    public readonly strLen: number;
+    public pos = 0;
 
     public constructor(str: string) {
         this.str = str;
