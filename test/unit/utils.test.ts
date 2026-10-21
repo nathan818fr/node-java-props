@@ -109,6 +109,13 @@ describe('utils.encodeLine', () => {
     it('defaults to value encoding', () => {
         expect(encodeLine(' a=b')).toBe(encodeLine(' a=b', false));
     });
+
+    it('throws a TypeError for anything but a string', () => {
+        for (const value of [undefined, null, 5]) {
+            expect(() => encodeLine(value as unknown as string)).toThrow(TypeError);
+        }
+        expect(encodeLine(new String('a b') as unknown as string, true)).toBe('a\\ b');
+    });
 });
 
 describe('utils.LineReader', () => {

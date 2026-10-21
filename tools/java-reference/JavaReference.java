@@ -1,9 +1,13 @@
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 /**
@@ -13,6 +17,9 @@ import java.util.TreeMap;
  * units (4 digits per char), so that any char gets through (line terminators, lone surrogates...):
  * - "version" -> "<java.version>"
  * - "load <hex input>" -> "ok <hex key>:<hex value>,..." (sorted by key), or "throw <exception class> <hex message>"
+ * - "store <writer|stream> <hex comments, or -> <hex key>:<hex value>,..." -> "ok <hex output>": the output of
+ *   store(Writer) or store(OutputStream) (decoded as ISO-8859-1), date line included
+ * - "date <epoch millis> <time zone id>" -> "ok <hex Date.toString()>"
  */
 public class JavaReference {
     public static void main(String[] args) throws Exception {
@@ -27,6 +34,12 @@ public class JavaReference {
                 out.println(System.getProperty("java.version"));
             } else if (command.equals("load")) {
                 out.println(load(decode(payload)));
+            } else if (command.equals("store")) {
+                out.println(store(payload.split(" ", -1)));
+            } else if (command.equals("date")) {
+                String[] args2 = payload.split(" ");
+                TimeZone.setDefault(TimeZone.getTimeZone(args2[1]));
+                out.println("ok " + encode(new Date(Long.parseLong(args2[0])).toString()));
             } else {
                 throw new IllegalArgumentException("Unknown command: " + command);
             }
@@ -56,6 +69,25 @@ public class JavaReference {
             sb.append(encode(entry.getKey())).append(':').append(encode(entry.getValue()));
         }
         return sb.toString();
+    }
+
+    private static String store(String[] args) throws Exception {
+        Properties props = new Properties();
+        if (!args[2].isEmpty()) {
+            for (String entry : args[2].split(",")) {
+                String[] kv = entry.split(":", -1);
+                props.setProperty(decode(kv[0]), decode(kv[1]));
+            }
+        }
+        String comments = args[1].equals("-") ? null : decode(args[1]);
+        if (args[0].equals("writer")) {
+            StringWriter writer = new StringWriter();
+            props.store(writer, comments);
+            return "ok " + encode(writer.toString());
+        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        props.store(stream, comments);
+        return "ok " + encode(new String(stream.toByteArray(), "ISO-8859-1"));
     }
 
     private static String encode(String str) {

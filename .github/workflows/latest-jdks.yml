@@ -32,4 +32,6 @@ jobs:
       - uses: actions/setup-java@v6
         with: {distribution: zulu, java-version: '25'}
       - uses: jdx/mise-action@v5
-      - run: node tools/gen-parse-expected.mts --check # no dependency to install
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run reference:check
+      - run: pnpm run reference:fuzz -- --runs 5000

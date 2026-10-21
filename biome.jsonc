@@ -3,7 +3,7 @@
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
     // Also skips git-ignored files. Generated files keep their JSON.stringify formatting.
-    "includes": ["**", "!test/**/*-snapshot.json", "!test/cases/parse-expected.json"]
+    "includes": ["**", "!test/**/*-snapshot.json", "!test/cases/*-expected.json"]
   },
   "formatter": {
     "indentStyle": "space",

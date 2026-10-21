@@ -18,7 +18,6 @@
   "files": [
     "dist/**"
   ],
-  "type": "commonjs",
   "main": "dist/node-java-props.js",
   "browser": "dist/java-props.js",
   "sideEffects": false,
@@ -31,8 +30,9 @@
     "test:watch": "vitest",
     "pretest:compat": "pnpm run build",
     "test:compat": "node test/compat/run-smoke.js && node test/compat/check-esm.mjs && node test/compat/check-package.mjs",
-    "reference:gen": "node tools/gen-parse-expected.mts",
-    "reference:check": "node tools/gen-parse-expected.mts --check"
+    "reference:gen": "node tools/gen-expected.mts",
+    "reference:check": "node tools/gen-expected.mts --check",
+    "reference:fuzz": "pnpm run build && node tools/fuzz.mts"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",

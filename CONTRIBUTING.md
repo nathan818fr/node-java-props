@@ -19,15 +19,17 @@ pnpm run test:compat    # build, then check the package (test/compat/run-smoke.j
 
 ## Java reference
 
-Java is the reference: the Java results of the edge cases (`test/cases/parse-expected.json`) and of the fixtures
-(`test/fixtures`) are generated and checked by running real JVMs, one or more per behavior era of `Properties.load()`.
+Java is the reference: the Java results of the test cases (`test/cases/*-expected.json`, `test/fixtures`) are generated
+and checked by running real JVMs, one or more per behavior era of `Properties.load()` (see `src/internal/java-version.ts`). The
+fuzzer compares `parse` and `stringify` with `javaVersion` to each JVM, on random inputs.
 It needs `javac` from a JDK 9+ on the `PATH`, and the JDKs to compare:
 
 ```bash
 # JDKs to use (default: java from PATH): name=/path/to/bin/java,...
 export JAVA_REFERENCE_JDKS="8=/opt/jdk8/bin/java,11.0.4=/opt/jdk-11.0.4/bin/java,25=/opt/jdk25/bin/java"
-pnpm run reference:gen    # regenerate
-pnpm run reference:check  # verify
+pnpm run reference:gen               # regenerate
+pnpm run reference:check             # verify
+pnpm run reference:fuzz              # random inputs (builds first; --runs N, --seed N to replay a failure)
 ```
 
 A monthly CI job (`.github/workflows/latest-jdks.yml`) also checks the latest GA and early-access JDKs, to catch a

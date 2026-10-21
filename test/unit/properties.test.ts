@@ -2,16 +2,7 @@
 import fc from 'fast-check';
 import {describe, expect, it} from 'vitest';
 import {parse, stringify} from '../../src/java-props';
-
-// Pieces of .properties text that matter to the parser, and some that don't (backslash weighted)
-const PIECES = [
-    ...['\\', '\\', '\\', '\\u', '\\u00', '\\u0041', '\\\n', '\\\r\n'],
-    ...['\n', '\r', '\r\n', '\n#', '\n!', ' ', '\t', '\f', '=', ':', '#', '!'],
-    ...['a', 'k', 'v', 'u', '0', 'F', 'g', 'n', 't', 'é'],
-    ...['\u0000', '\u007F', '\u00A0', '\uFEFF', '\uD83D', '\uDC51'],
-];
-const text = (maxPieces: number) =>
-    fc.array(fc.constantFrom(...PIECES), {maxLength: maxPieces}).map((pieces) => pieces.join(''));
+import {props, text} from '../support/arbitraries.mts';
 
 describe('properties', () => {
     it('parse only throws on malformed \\uXXXX', () => {
@@ -32,5 +23,15 @@ describe('properties', () => {
                 expect({...parse(stringify(props))}).toEqual({...props});
             })
         );
+    });
+
+    it('stringify output is parsed back to the same properties, with every javaVersion', () => {
+        for (const javaVersion of [8, 9, '11.0.5', 13]) {
+            fc.assert(
+                fc.property(props, (p) => {
+                    expect({...parse(stringify(p, {javaVersion}), {javaVersion})}).toEqual({...p});
+                })
+            );
+        }
     });
 });

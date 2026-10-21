@@ -32,10 +32,18 @@ assert.ok(pkg.type === undefined || pkg.type === 'commonjs', 'the package must s
 assert.equal(pkg.engines, undefined, '"engines" could reject installs on old Node.js versions');
 assert.equal(pkg.dependencies, undefined, 'no runtime dependencies');
 
-// The browser entry must not require Node.js modules
+// The browser entry, and every module it requires, must not require Node.js modules
 const requires = (file) =>
     [...fs.readFileSync(path.join(ROOT, file), 'utf8').matchAll(/require\("([^"]+)"\)/g)].map((m) => m[1]);
-assert.deepEqual(requires(pkg.browser), ['./utils'], 'requires of the browser entry');
-assert.deepEqual(requires('dist/utils.js'), [], 'requires of dist/utils.js');
+const seen = new Set();
+const visit = (file) => {
+    if (seen.has(file)) return;
+    seen.add(file);
+    for (const dep of requires(file)) {
+        assert.ok(dep.startsWith('./') || dep.startsWith('../'), `${file} requires ${dep}`);
+        visit(path.join(path.dirname(file), `${dep}.js`));
+    }
+};
+visit(pkg.browser);
 
 console.log(`OK: package content (${files.length} files)`);

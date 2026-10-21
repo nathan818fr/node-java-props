@@ -47,10 +47,24 @@ describe('parseFile', () => {
         expect(await JavaProps.parseFile(bomFile)).toEqual({'\ufeffk': 'v'});
     });
 
+    it('accepts parse options', async () => {
+        const badEnd = path.join(tmpDir, 'bad-end.properties');
+        fs.writeFileSync(badEnd, Buffer.from('k=é\\', 'latin1'));
+        expect(await JavaProps.parseFile(badEnd, 'latin1', {javaVersion: 8})).toEqual({k: 'é'});
+        expect(await JavaProps.parseFile(badEnd, {encoding: 'latin1', javaVersion: 8})).toEqual({k: 'é'});
+        expect(await JavaProps.parseFile(file, {javaVersion: 25})).toEqual(expected);
+    });
+
     it('rejects on read error', async () => {
         await expect(JavaProps.parseFile(path.join(FIXTURES_DIR, 'nonexistent.properties'))).rejects.toMatchObject({
             code: 'ENOENT',
         });
+    });
+
+    it('rejects on invalid options, without reading the file', async () => {
+        const missing = path.join(FIXTURES_DIR, 'nonexistent.properties');
+        await expect(JavaProps.parseFile(missing, {javaVersion: 'nope'})).rejects.toThrow(RangeError);
+        await expect(JavaProps.parseFile(missing, 'utf8', {javaVersion: 5})).rejects.toThrow(RangeError);
     });
 
     it('rejects on invalid encoding', async () => {

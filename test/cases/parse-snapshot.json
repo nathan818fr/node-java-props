@@ -594,6 +594,18 @@
     "throws": "Error",
     "message": "Malformed \\uxxxx encoding."
   },
+  "stale line buffer: comment chars before a backslash (skipped since JDK 9)": {
+    "input": "#ab\\\n\\",
+    "props": {
+      "": ""
+    }
+  },
+  "stale line buffer: comment ending with backslash (skipped since JDK 9)": {
+    "input": "#a\\\n\\",
+    "props": {
+      "": ""
+    }
+  },
   "escapes: standard escapes": {
     "input": "k=\\t\\n\\r\\f",
     "props": {

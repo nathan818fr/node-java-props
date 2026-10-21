@@ -117,7 +117,7 @@ add('lone continuation backslash', {
     'followed by property': '\\\nk=v',
 });
 
-// Comment or key? Changed by JDK-8224202 (see LOAD_ERAS in test/support/load-result.mts).
+// Comment or key? Changed by JDK-8224202 (see LOAD_ERAS in src/internal/java-version.ts).
 add('empty continuation then comment char', {
     hash: '\\\n#foo=bar\nbaz=1',
     'bang with indentation': '  \\\n!x=1',
@@ -134,12 +134,14 @@ add('comment ending with backslash, then backslashes', {
     'comment with 3 backslashes, then backslashes': '#\\\\\\\n\\\\\\\\',
 });
 
-// JDK 8 reads stale chars of its reused line buffer (partly fixed by JDK-8224202, then by JDK-8224240).
+// Java reads stale chars of its reused line buffer (changed in JDK 9, partly fixed by JDK-8224202, then JDK-8224240).
 add('stale line buffer', {
     'lone backslash decode after comment': '#\\v\\\r\n\t\\',
     'truncated unicode after longer line': 'abcdef12\na=\\u00',
     'truncated unicode after longer non-hex line': 'abcdef1z\na=\\u00',
     'truncated unicode in key after longer line': 'xxxxxx0041\n\\u00',
+    'comment chars before a backslash (skipped since JDK 9)': '#ab\\\n\\',
+    'comment ending with backslash (skipped since JDK 9)': '#a\\\n\\',
 });
 
 add('escapes', {

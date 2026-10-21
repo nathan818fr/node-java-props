@@ -1,10 +1,12 @@
 // Test fixtures (test/fixtures) and the Java results of the edge cases (test/cases).
 import fs from 'node:fs';
 import path from 'node:path';
-import type {LoadEra, LoadResult} from './load-result.mts';
+import type {LoadEra} from '../../src/internal/java-version.ts';
+import type {LoadResult} from './load-result.mts';
 
 export const FIXTURES_DIR = path.join(import.meta.dirname, '../fixtures');
 export const PARSE_EXPECTED_FILE = path.join(import.meta.dirname, '../cases/parse-expected.json');
+export const STRINGIFY_EXPECTED_FILE = path.join(import.meta.dirname, '../cases/stringify-expected.json');
 
 /** The .properties files of test/fixtures. */
 export function fixtureFiles(): string[] {
@@ -30,4 +32,15 @@ export type ParseExpected = Record<string, {input: string} & Record<LoadEra, Loa
 /** Reads parse-expected.json (not imported as a module: Vite rejects lone surrogate escapes like "\ud83d"). */
 export function readParseExpected(): ParseExpected {
     return JSON.parse(fs.readFileSync(PARSE_EXPECTED_FILE, 'utf8'));
+}
+
+export interface StringifyExpected {
+    /** Inputs, and the outputs of store(Writer) and store(OutputStream) without the date line */
+    cases: Record<string, {props: Record<string, string>; comments?: string; writer: string; stream: string}>;
+    /** Inputs (`timeZone` option), and the Date.toString() of Java */
+    dates: Record<string, {time: number; timeZone: string; java: string}>;
+}
+
+export function readStringifyExpected(): StringifyExpected {
+    return JSON.parse(fs.readFileSync(STRINGIFY_EXPECTED_FILE, 'utf8'));
 }

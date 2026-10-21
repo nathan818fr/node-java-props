@@ -76,7 +76,7 @@ jobs:
       - uses: jdx/mise-action@v5
       - run: node test/compat/check-types.mjs ${{ matrix.typescript }}
 
-  # Expected results must match real JVMs, for each Properties.load() era (see LOAD_ERAS in test/support/load-result.mts)
+  # Expected results and the javaVersion emulation must match real JVMs (see LOAD_ERAS in src/internal/java-version.ts)
   java-reference:
     name: Java reference
     runs-on: ubuntu-latest
@@ -91,16 +91,13 @@ jobs:
       - {id: jdk17, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '17'}}
       - {id: jdk21, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '21'}}
       - {id: jdk25, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '25'}}
+      - run: |
+          echo "JAVA_REFERENCE_JDKS=8=${{ steps.jdk8.outputs.path }}/bin/java,11.0.4=${{ steps.jdk11_0_4.outputs.path }}/bin/java,\
+          11.0.5=${{ steps.jdk11_0_5.outputs.path }}/bin/java,11=${{ steps.jdk11.outputs.path }}/bin/java,\
+          12=${{ steps.jdk12.outputs.path }}/bin/java,13=${{ steps.jdk13.outputs.path }}/bin/java,\
+          17=${{ steps.jdk17.outputs.path }}/bin/java,21=${{ steps.jdk21.outputs.path }}/bin/java,\
+          25=${{ steps.jdk25.outputs.path }}/bin/java" >> "$GITHUB_ENV"
       - uses: jdx/mise-action@v5
-      - run: node tools/gen-parse-expected.mts --check # no dependency to install
-        env:
-          JAVA_REFERENCE_JDKS: >-
-            8=${{ steps.jdk8.outputs.path }}/bin/java,
-            11.0.4=${{ steps.jdk11_0_4.outputs.path }}/bin/java,
-            11.0.5=${{ steps.jdk11_0_5.outputs.path }}/bin/java,
-            11=${{ steps.jdk11.outputs.path }}/bin/java,
-            12=${{ steps.jdk12.outputs.path }}/bin/java,
-            13=${{ steps.jdk13.outputs.path }}/bin/java,
-            17=${{ steps.jdk17.outputs.path }}/bin/java,
-            21=${{ steps.jdk21.outputs.path }}/bin/java,
-            25=${{ steps.jdk25.outputs.path }}/bin/java
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run reference:check
+      - run: pnpm run reference:fuzz -- --runs 5000

@@ -91,6 +91,72 @@ Object.keys(cases).forEach((name) => {
     });
 });
 
+// Edge cases with javaVersion: same results as Java (test/unit/parse-cases.test.ts)
+const ERA_VERSIONS = {jdk8: 8, jdk9: 9, jdk11: '11.0.5', jdk13: 13};
+const javaCases = JSON.parse(fs.readFileSync(path.join(ROOT, 'test/cases/parse-expected.json'), 'utf8'));
+Object.keys(ERA_VERSIONS).forEach((era) => {
+    check('cases with javaVersion ' + ERA_VERSIONS[era], () => {
+        Object.keys(javaCases).forEach((name) => {
+            const c = javaCases[name];
+            let res;
+            try {
+                res = {props: sortedEntries(main.parse(c.input, {javaVersion: ERA_VERSIONS[era]}))};
+            } catch (err) {
+                res = {throws: err.message};
+            }
+            const java = c[era];
+            assert.deepStrictEqual(
+                res,
+                java.throws ? {throws: java.message} : {props: sortedEntries(java.props)},
+                name
+            );
+        });
+    });
+});
+
+// stringify with javaVersion: same output as Java (test/unit/java-props.test.ts)
+const storeCases = JSON.parse(fs.readFileSync(path.join(ROOT, 'test/cases/stringify-expected.json'), 'utf8'));
+check('stringify with javaVersion', () => {
+    Object.keys(storeCases.cases).forEach((name) => {
+        const c = storeCases.cases[name];
+        const options = {javaVersion: 25, comments: c.comments, date: false, lineSeparator: '\n'};
+        assert.strictEqual(main.stringify(c.props, options), c.writer, name);
+        options.escapeUnicode = true;
+        assert.strictEqual(main.stringify(c.props, options), c.stream, name);
+    });
+    // Exact time zones only: names of the others depend on the Intl support of each Node.js version
+    Object.keys(storeCases.dates).forEach((name) => {
+        const d = storeCases.dates[name];
+        if (d.timeZone !== 'UTC' && !/^[+-]/.test(d.timeZone)) return;
+        const options = {javaVersion: 25, date: new Date(d.time), timeZone: d.timeZone, lineSeparator: '\n'};
+        assert.strictEqual(main.stringify({}, options), '#' + d.java + '\n', name);
+    });
+});
+
+// readEntries and escapeKey/escapeValue
+check('readEntries', () => {
+    const reader = main.readEntries('# c\nb=\\u00e9\r\na : 1\\\n  2', {positions: true});
+    const entries = [];
+    while (reader.next()) {
+        entries.push([
+            reader.key,
+            reader.value,
+            reader.rawValue,
+            reader.start,
+            reader.end,
+            reader.startLine,
+            reader.startColumn,
+        ]);
+    }
+    assert.deepStrictEqual(entries, [
+        ['b', '\u00e9', '\\u00e9', 4, 12, 2, 1],
+        ['a', '12', '12', 14, 24, 3, 1],
+    ]);
+    assert.strictEqual(browser.readEntries, main.readEntries);
+    assert.strictEqual(main.escapeKey('k =é'), 'k\\ \\=\\u00E9');
+    assert.strictEqual(main.escapeValue(' v=é', {javaVersion: 17}), '\\ v\\=é');
+});
+
 // stringify
 check('stringify', () => {
     assert.strictEqual(main.stringify({a: 'b c', ' k=': ' é\n'}), 'a: b c\n\\ k\\=: \\ \\u00E9\\n\n');

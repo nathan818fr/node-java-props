@@ -1,8 +1,11 @@
 {
   "main": [
     "default: object",
+    "escapeKey: function",
+    "escapeValue: function",
     "parse: function",
     "parseFile: function",
+    "readEntries: function",
     "stringify: function"
   ],
   "mainDefault": [
@@ -12,7 +15,10 @@
   ],
   "browser": [
     "default: object",
+    "escapeKey: function",
+    "escapeValue: function",
     "parse: function",
+    "readEntries: function",
     "stringify: function"
   ],
   "browserDefault": [

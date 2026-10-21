@@ -2,7 +2,7 @@
 import {execFileSync} from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import type {LoadEra, LoadResult} from '../../test/support/load-result.mts';
+import type {LoadResult} from '../../test/support/load-result.mts';
 
 const REFERENCE_DIR = import.meta.dirname;
 const BUILD_DIR = path.join(REFERENCE_DIR, 'build');
@@ -90,12 +90,29 @@ export function jvmLoad(jdk: Jdk, inputs: string[]): LoadResult[] {
     });
 }
 
-/** Behavior era of Properties.load() for a java.version string (see LOAD_ERAS in test/support/load-result.mts). */
-export function loadEra(javaVersion: string): LoadEra {
-    const parts = javaVersion.replace(/^1\./, '').split(/[.+_-]/);
-    const major = Number(parts[0]);
-    const update = Number(parts[2] ?? 0);
-    if (major >= 13) return 'jdk13';
-    if (major === 11 && update >= 5) return 'jdk11';
-    return 'jdk8';
+export interface StoreRequest {
+    props: Record<string, string>;
+    comments?: string;
+    /** store(OutputStream) (`\uXXXX` escapes) instead of store(Writer) */
+    stream?: boolean;
+}
+
+/** Runs Properties.store() on each request. The outputs include Java's date line. */
+export function jvmStore(jdk: Jdk, requests: StoreRequest[]): string[] {
+    return run(
+        jdk.java,
+        requests.map((r) => {
+            const entries = Object.keys(r.props).map((k) => `${encode(k)}:${encode(r.props[k])}`);
+            const comments = r.comments === undefined ? '-' : encode(r.comments);
+            return `store ${r.stream ? 'stream' : 'writer'} ${comments} ${entries.join(',')}`;
+        })
+    ).map((line) => decode(line.slice('ok '.length)));
+}
+
+/** Runs Date.toString() for each epoch time, in a time zone (an id of TimeZone.getTimeZone()). */
+export function jvmDate(jdk: Jdk, requests: {time: number; timeZone: string}[]): string[] {
+    return run(
+        jdk.java,
+        requests.map((r) => `date ${r.time} ${r.timeZone}`)
+    ).map((line) => decode(line.slice('ok '.length)));
 }
