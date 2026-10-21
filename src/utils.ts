@@ -1,8 +1,20 @@
+/*
+ * Port of the JDK 8 implementation of java.util.Properties:
+ * - rawParse / rawParseLine: Properties.load0()
+ * - LineReader: Properties.LineReader.readLine()
+ * - decodeLine: Properties.loadConvert()
+ * - encodeLine: Properties.saveConvert()
+ *
+ * Everything exported here is public API (`java-props/dist/utils`).
+ */
+
 const DECODE_PATTERN = /(?:\\u(.{0,4})|\\(.?))/g;
 const UNICODE_PATTERN = /^[0-9a-fA-F]{4}$/;
 
+// biome-ignore lint/suspicious/noControlCharactersInRegex: control characters must be escaped
 const ENCODE_PATTERN = /(?:[\u0000-\u001F\\\u007F-\uFFFF])/g;
-const ENCODE_KEY_PATTERN = /(?:[\u0000-\u0020!#:=\\\u007F-\uFFFF])/g; // ENCODE_PATTERN with separators + comments
+// biome-ignore lint/suspicious/noControlCharactersInRegex: ENCODE_PATTERN + separators (=: and whitespace) + comment chars (#!)
+const ENCODE_KEY_PATTERN = /(?:[\u0000-\u0020!#:=\\\u007F-\uFFFF])/g;
 
 export interface ParsedLine {
     line: string;
@@ -10,14 +22,20 @@ export interface ParsedLine {
     valueStart: number;
 }
 
+/**
+ * Splits a .properties string into logical lines, and calls `consumeFn` with the key/value boundaries of each one.
+ */
 export function rawParse(str: string, consumeFn: (res: ParsedLine) => void): void {
     const lr = new LineReader(str);
-    let line;
-    while ((line = lr.readLine()) !== undefined) {
+    for (let line = lr.readLine(); line !== undefined; line = lr.readLine()) {
         consumeFn(rawParseLine(line));
     }
 }
 
+/**
+ * Finds the key/value boundaries of a logical line (as returned by {@link LineReader.readLine}).
+ * The key is `line.substring(0, sepStart)` and the value is `line.substring(valueStart)`, both still escaped.
+ */
 export function rawParseLine(line: string): ParsedLine {
     let keyLen = 0;
     let valueStart = line.length;
@@ -58,6 +76,11 @@ export function rawParseLine(line: string): ParsedLine {
     return {line, sepStart: keyLen, valueStart};
 }
 
+/**
+ * Decodes the escape sequences of a key or a value (`\t`, `\uXXXX`, `\=`, ...).
+ *
+ * @throws Error on malformed `\uXXXX` sequences
+ */
 export function decodeLine(line: string): string {
     return line.replace(DECODE_PATTERN, (_, unicode, char) => {
         if (unicode !== undefined) {
@@ -80,6 +103,9 @@ export function decodeLine(line: string): string {
     });
 }
 
+/**
+ * Escapes a value, or a key if `isKey` is true (keys also escape spaces, separators and comment chars).
+ */
 export function encodeLine(line: string, isKey?: boolean): string {
     let str = line.replace(isKey ? ENCODE_KEY_PATTERN : ENCODE_PATTERN, (c) => {
         if (c === '\t') {
@@ -93,11 +119,8 @@ export function encodeLine(line: string, isKey?: boolean): string {
         } else if (c >= ' ' && c <= '~') {
             return '\\' + c;
         } else {
-            const code = c.charCodeAt(0);
-            if (code < 16) return '\\u000' + code.toString(16).toUpperCase();
-            if (code < 256) return '\\u00' + code.toString(16).toUpperCase();
-            if (code < 4096) return '\\u0' + code.toString(16).toUpperCase();
-            return '\\u' + code.toString(16).toUpperCase();
+            const hex = c.charCodeAt(0).toString(16).toUpperCase();
+            return '\\u' + '0000'.substring(hex.length) + hex;
         }
     });
     if (!isKey) {
@@ -114,6 +137,9 @@ export function encodeLine(line: string, isKey?: boolean): string {
  */
 export const convertLine = decodeLine;
 
+/**
+ * Reads logical lines: skips comments, blank lines and leading whitespace, and joins continuation lines.
+ */
 export class LineReader {
     public readonly str: string;
     public readonly strLen: number;
@@ -124,7 +150,10 @@ export class LineReader {
         this.strLen = str.length;
     }
 
-    public readLine(): string {
+    /**
+     * @return The next logical line, or `undefined` at the end of the input
+     */
+    public readLine(): string | undefined {
         let skipWhiteSpace = true;
         let commentLine = false;
         let newLine = true;

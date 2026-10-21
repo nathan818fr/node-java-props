@@ -1,0 +1,49 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    // Also skips git-ignored files. Generated files keep their JSON.stringify formatting.
+    "includes": ["**", "!test/**/*-snapshot.json", "!test/cases/parse-expected.json"]
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 4,
+    "lineWidth": 120,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "bracketSpacing": false,
+      "trailingCommas": "es5",
+      "semicolons": "always",
+      "arrowParentheses": "always"
+    }
+  },
+  "json": { "formatter": { "indentWidth": 2 } },
+  "linter": {
+    "rules": {
+      "preset": "recommended",
+      "style": { "useTemplate": "off" }
+    }
+  },
+  "assist": { "actions": { "source": { "organizeImports": "off" } } },
+  "overrides": [
+    {
+      // Code for Node.js >= 6 (check-esm.mjs: >= 12): no `node:` imports (Node >= 14.18), no `Object.hasOwn` (ES2022).
+      // The emitted .d.ts is read by TypeScript >= 2.9: no inline `type` imports (TS >= 4.5).
+      "includes": ["src/**", "test/compat/run-smoke.js", "test/compat/check-esm.mjs"],
+      "linter": {
+        "rules": {
+          "style": { "useNodejsImportProtocol": "off", "useImportType": "off" },
+          "suspicious": { "noPrototypeBuiltins": "off" }
+        }
+      }
+    },
+    {
+      // Fixture compiled by old TypeScript versions (2.9+): old syntax and unused variables on purpose.
+      "includes": ["test/compat/types/**"],
+      "linter": { "enabled": false }
+    }
+  ]
+}

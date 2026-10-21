@@ -1,0 +1,34 @@
+{
+  "main": [
+    "default: object",
+    "parse: function",
+    "parseFile: function",
+    "stringify: function"
+  ],
+  "mainDefault": [
+    "parse: function",
+    "parseFile: function",
+    "stringify: function"
+  ],
+  "browser": [
+    "default: object",
+    "parse: function",
+    "stringify: function"
+  ],
+  "browserDefault": [
+    "parse: function",
+    "stringify: function"
+  ],
+  "utils": [
+    "LineReader: function",
+    "convertLine: function",
+    "decodeLine: function",
+    "encodeLine: function",
+    "rawParse: function",
+    "rawParseLine: function"
+  ],
+  "lineReader": [
+    "constructor",
+    "readLine"
+  ]
+}

@@ -1,18 +1,18 @@
 {
+  // Type-checks everything (sources, tests, tools). The published build uses tsconfig.build.json.
   "compilerOptions": {
-    "module": "commonjs",
+    "target": "es2024",
+    "lib": ["es2024"],
+    "types": ["node"],
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
-    "target": "es6",
-    "noImplicitReturns": true,
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "declaration": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    }
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src", "test", "tools", "*.mts"],
+  // Compiled separately, by many TypeScript versions (test/compat/check-types.mjs)
+  "exclude": ["test/compat/types"]
 }

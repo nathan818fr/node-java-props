@@ -48,10 +48,11 @@ export function stringify(props: Properties): string {
     return str;
 }
 
-/**
- * @deprecated
- */
-export default {
+const _default = {
     parse,
     stringify,
 };
+/**
+ * @deprecated
+ */
+export default _default;
