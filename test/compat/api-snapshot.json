@@ -1,0 +1,40 @@
+{
+  "main": [
+    "default: object",
+    "escapeKey: function",
+    "escapeValue: function",
+    "parse: function",
+    "parseFile: function",
+    "readEntries: function",
+    "stringify: function"
+  ],
+  "mainDefault": [
+    "parse: function",
+    "parseFile: function",
+    "stringify: function"
+  ],
+  "browser": [
+    "default: object",
+    "escapeKey: function",
+    "escapeValue: function",
+    "parse: function",
+    "readEntries: function",
+    "stringify: function"
+  ],
+  "browserDefault": [
+    "parse: function",
+    "stringify: function"
+  ],
+  "utils": [
+    "LineReader: function",
+    "convertLine: function",
+    "decodeLine: function",
+    "encodeLine: function",
+    "rawParse: function",
+    "rawParseLine: function"
+  ],
+  "lineReader": [
+    "constructor",
+    "readLine"
+  ]
+}

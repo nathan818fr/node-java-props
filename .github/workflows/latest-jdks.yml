@@ -1,0 +1,37 @@
+name: Latest JDKs
+
+# A new Java release could change Properties.load() (last change: JDK 13). This checks the committed Java results
+# against the latest GA and early-access JDKs: a failure means a new behavior era (see LOAD_ERAS).
+on:
+  schedule:
+    - cron: '49 1 20 * *' # monthly
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  java-reference:
+    name: Java reference (${{ matrix.jdk }})
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [ga, ea]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - if: matrix.jdk == 'ga'
+        uses: oracle-actions/setup-java@v1
+      - if: matrix.jdk == 'ea'
+        uses: oracle-actions/setup-java@v1
+        with: {website: jdk.java.net, release: EA, version: stable}
+      - run: |
+          "$JAVA_HOME/bin/java" -version
+          echo "JAVA_REFERENCE_JDKS=${{ matrix.jdk }}=$JAVA_HOME/bin/java" >> "$GITHUB_ENV"
+      # javac for the reference program (--release 8), independent of the JDK under test
+      - uses: actions/setup-java@v6
+        with: {distribution: zulu, java-version: '25'}
+      - uses: jdx/mise-action@v5
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run reference:check
+      - run: pnpm run reference:fuzz -- --runs 5000

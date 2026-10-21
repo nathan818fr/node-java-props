@@ -1,1 +1,3 @@
-/test/data/*.properties     binary
+* text=auto eol=lf
+# Test fixtures: byte-exact (some use CRLF / mixed line endings on purpose)
+/test/fixtures/*.properties binary

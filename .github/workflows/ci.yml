@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  test:
+    name: Lint, test, build (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v5
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint
+      - run: pnpm test
+      - run: pnpm run build
+      - run: node test/compat/check-package.mjs
+      - if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+
+  # The built package must keep working on every supported Node.js version
+  compat-node:
+    name: Node.js ${{ matrix.node }}
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node test/compat/run-smoke.js
+      - if: matrix.node >= 12
+        run: node test/compat/check-esm.mjs
+
+  # The type declarations must keep working with every supported TypeScript version
+  compat-types:
+    name: TypeScript ${{ matrix.typescript }}
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        typescript: ['2.9', '3.9', '4.9', '5.9', '6.0', latest]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      - uses: jdx/mise-action@v5
+      - run: node test/compat/check-types.mjs ${{ matrix.typescript }}
+
+  # Expected results and the javaVersion emulation must match real JVMs (see LOAD_ERAS in src/internal/java-version.ts)
+  java-reference:
+    name: Java reference
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - {id: jdk8, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '8'}}
+      - {id: jdk11_0_4, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '11.0.4'}}
+      - {id: jdk11_0_5, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '11.0.5'}}
+      - {id: jdk11, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '11'}}
+      - {id: jdk12, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '12'}}
+      - {id: jdk13, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '13'}}
+      - {id: jdk17, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '17'}}
+      - {id: jdk21, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '21'}}
+      - {id: jdk25, uses: actions/setup-java@v6, with: {distribution: zulu, java-version: '25'}}
+      - run: |
+          echo "JAVA_REFERENCE_JDKS=8=${{ steps.jdk8.outputs.path }}/bin/java,11.0.4=${{ steps.jdk11_0_4.outputs.path }}/bin/java,\
+          11.0.5=${{ steps.jdk11_0_5.outputs.path }}/bin/java,11=${{ steps.jdk11.outputs.path }}/bin/java,\
+          12=${{ steps.jdk12.outputs.path }}/bin/java,13=${{ steps.jdk13.outputs.path }}/bin/java,\
+          17=${{ steps.jdk17.outputs.path }}/bin/java,21=${{ steps.jdk21.outputs.path }}/bin/java,\
+          25=${{ steps.jdk25.outputs.path }}/bin/java" >> "$GITHUB_ENV"
+      - uses: jdx/mise-action@v5
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run reference:check
+      - run: pnpm run reference:fuzz -- --runs 5000

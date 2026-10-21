@@ -1,0 +1,10 @@
+{
+  "continued.cr": "ab",
+  "continued.crlf": "ab",
+  "continued.lf": "ab",
+  "continued.mixed": "abcd",
+  "cr": "3",
+  "crlf": "2",
+  "last": "end",
+  "lf": "1"
+}

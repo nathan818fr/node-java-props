@@ -1,9 +1,0 @@
-{
-  "out": "typedoc",
-  "name": "node-java-props Documentation",
-  "entryPoints": ["src/typedoc.d.ts"],
-  "exclude": ["src/utils.ts"],
-  "excludePrivate": true,
-  "disableSources": true,
-  "githubPages": true
-}

@@ -1,0 +1,881 @@
+{
+  "empty: empty string": {
+    "input": "",
+    "props": {}
+  },
+  "empty: only LF": {
+    "input": "\n",
+    "props": {}
+  },
+  "empty: only CR": {
+    "input": "\r",
+    "props": {}
+  },
+  "empty: only CRLF": {
+    "input": "\r\n",
+    "props": {}
+  },
+  "empty: only whitespace": {
+    "input": " \t\f ",
+    "props": {}
+  },
+  "empty: whitespace lines": {
+    "input": "  \n\t\n\f\r\n",
+    "props": {}
+  },
+  "line terminators: LF": {
+    "input": "a=1\nb=2\n",
+    "props": {
+      "a": "1",
+      "b": "2"
+    }
+  },
+  "line terminators: CR": {
+    "input": "a=1\rb=2\r",
+    "props": {
+      "a": "1",
+      "b": "2"
+    }
+  },
+  "line terminators: CRLF": {
+    "input": "a=1\r\nb=2\r\n",
+    "props": {
+      "a": "1",
+      "b": "2"
+    }
+  },
+  "line terminators: LFCR": {
+    "input": "a=1\n\rb=2\n\r",
+    "props": {
+      "a": "1",
+      "b": "2"
+    }
+  },
+  "line terminators: mixed": {
+    "input": "a=1\nb=2\rc=3\r\nd=4",
+    "props": {
+      "a": "1",
+      "b": "2",
+      "c": "3",
+      "d": "4"
+    }
+  },
+  "line terminators: no final terminator": {
+    "input": "a=1\nb=2",
+    "props": {
+      "a": "1",
+      "b": "2"
+    }
+  },
+  "line terminators: blank lines between": {
+    "input": "a=1\n\n\r\n\r\rb=2",
+    "props": {
+      "a": "1",
+      "b": "2"
+    }
+  },
+  "line terminators: U+2028 and U+2029 are not terminators": {
+    "input": "a=1 b=2 c=3\n",
+    "props": {
+      "a": "1 b=2 c=3"
+    }
+  },
+  "line terminators: NEL (U+0085) is not a terminator": {
+    "input": "a=1b=2",
+    "props": {
+      "a": "1b=2"
+    }
+  },
+  "line terminators: vertical tab is not whitespace": {
+    "input": "\u000ba=1",
+    "props": {
+      "\u000ba": "1"
+    }
+  },
+  "separators: equals": {
+    "input": "key=value",
+    "props": {
+      "key": "value"
+    }
+  },
+  "separators: colon": {
+    "input": "key:value",
+    "props": {
+      "key": "value"
+    }
+  },
+  "separators: space": {
+    "input": "key value",
+    "props": {
+      "key": "value"
+    }
+  },
+  "separators: tab": {
+    "input": "key\tvalue",
+    "props": {
+      "key": "value"
+    }
+  },
+  "separators: form feed": {
+    "input": "key\fvalue",
+    "props": {
+      "key": "value"
+    }
+  },
+  "separators: spaces around equals": {
+    "input": "key  =  value",
+    "props": {
+      "key": "value"
+    }
+  },
+  "separators: spaces around colon": {
+    "input": "key \t: \fvalue",
+    "props": {
+      "key": "value"
+    }
+  },
+  "separators: equals then colon": {
+    "input": "key=:value",
+    "props": {
+      "key": ":value"
+    }
+  },
+  "separators: colon then equals": {
+    "input": "key:=value",
+    "props": {
+      "key": "=value"
+    }
+  },
+  "separators: two equals": {
+    "input": "key==value",
+    "props": {
+      "key": "=value"
+    }
+  },
+  "separators: space then two equals": {
+    "input": "key = = value",
+    "props": {
+      "key": "= value"
+    }
+  },
+  "separators: space then colon then space": {
+    "input": "key : value",
+    "props": {
+      "key": "value"
+    }
+  },
+  "separators: whitespace only separator, then equals in value": {
+    "input": "key  value=x",
+    "props": {
+      "key": "value=x"
+    }
+  },
+  "separators: no separator (key only)": {
+    "input": "key",
+    "props": {
+      "key": ""
+    }
+  },
+  "separators: key only with trailing spaces": {
+    "input": "key   ",
+    "props": {
+      "key": ""
+    }
+  },
+  "separators: key then separator, no value": {
+    "input": "key=",
+    "props": {
+      "key": ""
+    }
+  },
+  "separators: key then separator and spaces, no value": {
+    "input": "key =   ",
+    "props": {
+      "key": ""
+    }
+  },
+  "separators: empty key (equals)": {
+    "input": "=value",
+    "props": {
+      "": "value"
+    }
+  },
+  "separators: empty key (colon)": {
+    "input": ":value",
+    "props": {
+      "": "value"
+    }
+  },
+  "separators: empty key, empty value": {
+    "input": "=",
+    "props": {
+      "": ""
+    }
+  },
+  "separators: leading whitespace before empty key": {
+    "input": "   =value",
+    "props": {
+      "": "value"
+    }
+  },
+  "separators: escaped separator in key": {
+    "input": "a\\=b=c",
+    "props": {
+      "a=b": "c"
+    }
+  },
+  "separators: escaped colon in key": {
+    "input": "a\\:b:c",
+    "props": {
+      "a:b": "c"
+    }
+  },
+  "separators: escaped space in key": {
+    "input": "a\\ b c",
+    "props": {
+      "a b": "c"
+    }
+  },
+  "separators: escaped tab in key": {
+    "input": "a\\\tb c",
+    "props": {
+      "a\tb": "c"
+    }
+  },
+  "separators: double backslash before separator": {
+    "input": "a\\\\=b",
+    "props": {
+      "a\\": "b"
+    }
+  },
+  "separators: triple backslash before separator": {
+    "input": "a\\\\\\=b=c",
+    "props": {
+      "a\\=b": "c"
+    }
+  },
+  "separators: separator chars in value": {
+    "input": "k=a=b:c d",
+    "props": {
+      "k": "a=b:c d"
+    }
+  },
+  "separators: value with leading escaped space": {
+    "input": "k=\\  v",
+    "props": {
+      "k": "  v"
+    }
+  },
+  "separators: value trailing whitespace kept": {
+    "input": "k=v \t\f",
+    "props": {
+      "k": "v \t\f"
+    }
+  },
+  "comments: hash": {
+    "input": "# comment\nk=v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "comments: bang": {
+    "input": "! comment\nk=v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "comments: indented hash": {
+    "input": "   # comment\nk=v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "comments: indented bang with tab": {
+    "input": "\t! comment\nk=v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "comments: comment at EOF without terminator": {
+    "input": "k=v\n# comment",
+    "props": {
+      "k": "v"
+    }
+  },
+  "comments: hash inside key is not a comment": {
+    "input": "a#b=c",
+    "props": {
+      "a#b": "c"
+    }
+  },
+  "comments: hash inside value": {
+    "input": "k=v # not a comment",
+    "props": {
+      "k": "v # not a comment"
+    }
+  },
+  "comments: escaped hash key": {
+    "input": "\\#k=v",
+    "props": {
+      "#k": "v"
+    }
+  },
+  "comments: comment ending with backslash does not continue": {
+    "input": "# comment \\\nk=v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "comments: comment ending with two backslashes": {
+    "input": "# comment \\\\\nk=v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "comments: comment ending with backslash then CRLF": {
+    "input": "# comment \\\r\nk=v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "comments: comment ending with backslash at EOF": {
+    "input": "k=v\n# comment \\",
+    "props": {
+      "k": "v"
+    }
+  },
+  "comments: only comments": {
+    "input": "#a\n!b\n  # c",
+    "props": {}
+  },
+  "comments: comment with CR terminator": {
+    "input": "# c\rk=v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "continuation: simple": {
+    "input": "k=a\\\nb",
+    "props": {
+      "k": "ab"
+    }
+  },
+  "continuation: leading whitespace of next line skipped": {
+    "input": "k=a\\\n   \t\fb",
+    "props": {
+      "k": "ab"
+    }
+  },
+  "continuation: CRLF": {
+    "input": "k=a\\\r\nb",
+    "props": {
+      "k": "ab"
+    }
+  },
+  "continuation: CR": {
+    "input": "k=a\\\rb",
+    "props": {
+      "k": "ab"
+    }
+  },
+  "continuation: LFCR is two terminators": {
+    "input": "k=a\\\n\rb=c",
+    "props": {
+      "b": "c",
+      "k": "a"
+    }
+  },
+  "continuation: multiple": {
+    "input": "k=a\\\nb\\\nc",
+    "props": {
+      "k": "abc"
+    }
+  },
+  "continuation: in key": {
+    "input": "ke\\\ny=v",
+    "props": {
+      "key": "v"
+    }
+  },
+  "continuation: in separator area": {
+    "input": "k\\\n = v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "continuation: escaped backslash at EOL is not a continuation": {
+    "input": "k=a\\\\\nb=c",
+    "props": {
+      "b": "c",
+      "k": "a\\"
+    }
+  },
+  "continuation: three backslashes at EOL": {
+    "input": "k=a\\\\\\\nb",
+    "props": {
+      "k": "a\\b"
+    }
+  },
+  "continuation: to an empty line": {
+    "input": "k=a\\\n\nb=c",
+    "props": {
+      "b": "c",
+      "k": "a"
+    }
+  },
+  "continuation: to a whitespace-only line": {
+    "input": "k=a\\\n   \nb=c",
+    "props": {
+      "b": "c",
+      "k": "a"
+    }
+  },
+  "continuation: to a comment-looking line": {
+    "input": "k=a\\\n# not a comment",
+    "props": {
+      "k": "a# not a comment"
+    }
+  },
+  "continuation: to a bang-looking line": {
+    "input": "k=a\\\n!x",
+    "props": {
+      "k": "a!x"
+    }
+  },
+  "continuation: at EOF": {
+    "input": "k=v\\",
+    "props": {
+      "k": "v"
+    }
+  },
+  "continuation: at EOF after LF": {
+    "input": "k=v\\\n",
+    "props": {
+      "k": "v"
+    }
+  },
+  "continuation: twice at EOF": {
+    "input": "k=v\\\n\\\n",
+    "props": {
+      "k": "v"
+    }
+  },
+  "continuation: continued line starting with escaped space": {
+    "input": "k=a\\\n\\ b",
+    "props": {
+      "k": "a b"
+    }
+  },
+  "continuation: CR then LF on continued line start": {
+    "input": "k=a\\\r\n\r\nb=c",
+    "props": {
+      "b": "c",
+      "k": "a"
+    }
+  },
+  "lone continuation backslash: alone": {
+    "input": "\\",
+    "props": {}
+  },
+  "lone continuation backslash: alone with LF": {
+    "input": "\\\n",
+    "props": {}
+  },
+  "lone continuation backslash: alone with CRLF": {
+    "input": "\\\r\n",
+    "props": {}
+  },
+  "lone continuation backslash: after property": {
+    "input": "a=1\n\\",
+    "props": {
+      "a": "1"
+    }
+  },
+  "lone continuation backslash: after property, with LF": {
+    "input": "a=1\n\\\n",
+    "props": {
+      "a": "1"
+    }
+  },
+  "lone continuation backslash: indented": {
+    "input": "   \\",
+    "props": {}
+  },
+  "lone continuation backslash: followed by whitespace line": {
+    "input": "\\\n   ",
+    "props": {}
+  },
+  "lone continuation backslash: followed by empty line": {
+    "input": "\\\n\n",
+    "props": {}
+  },
+  "lone continuation backslash: followed by property": {
+    "input": "\\\nk=v",
+    "props": {
+      "k": "v"
+    }
+  },
+  "empty continuation then comment char: hash": {
+    "input": "\\\n#foo=bar\nbaz=1",
+    "props": {
+      "#foo": "bar",
+      "baz": "1"
+    }
+  },
+  "empty continuation then comment char: bang with indentation": {
+    "input": "  \\\n!x=1",
+    "props": {
+      "!x": "1"
+    }
+  },
+  "empty continuation then comment char: hash after CRLF": {
+    "input": "\\\r\n#c\r\nk=v",
+    "props": {
+      "#c": "",
+      "k": "v"
+    }
+  },
+  "empty continuation then comment char: hash with leading whitespace on next line": {
+    "input": "\\\n   #c\nk=v",
+    "props": {
+      "#c": "",
+      "k": "v"
+    }
+  },
+  "empty continuation then comment char: double continuation then hash": {
+    "input": "\\\n\\\n#c\nk=v",
+    "props": {
+      "#c": "",
+      "k": "v"
+    }
+  },
+  "comment ending with backslash, then backslashes: comment ending with backslash, then backslash-only line": {
+    "input": "#comment \\\n\\\\",
+    "props": {
+      "": ""
+    }
+  },
+  "comment ending with backslash, then backslashes: bang comment, CRLF, lone backslash": {
+    "input": "!\\\r\n\\",
+    "props": {
+      "": ""
+    }
+  },
+  "comment ending with backslash, then backslashes: comment backslash, then key with trailing escaped backslash": {
+    "input": "#\\\nk=\\\\",
+    "props": {
+      "k": "\\"
+    }
+  },
+  "comment ending with backslash, then backslashes: comment with 3 backslashes, then backslashes": {
+    "input": "#\\\\\\\n\\\\\\\\",
+    "props": {
+      "\\": ""
+    }
+  },
+  "stale line buffer: lone backslash decode after comment": {
+    "input": "#\\v\\\r\n\t\\",
+    "props": {
+      "": ""
+    }
+  },
+  "stale line buffer: truncated unicode after longer line": {
+    "input": "abcdef12\na=\\u00",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "stale line buffer: truncated unicode after longer non-hex line": {
+    "input": "abcdef1z\na=\\u00",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "stale line buffer: truncated unicode in key after longer line": {
+    "input": "xxxxxx0041\n\\u00",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "stale line buffer: comment chars before a backslash (skipped since JDK 9)": {
+    "input": "#ab\\\n\\",
+    "props": {
+      "": ""
+    }
+  },
+  "stale line buffer: comment ending with backslash (skipped since JDK 9)": {
+    "input": "#a\\\n\\",
+    "props": {
+      "": ""
+    }
+  },
+  "escapes: standard escapes": {
+    "input": "k=\\t\\n\\r\\f",
+    "props": {
+      "k": "\t\n\r\f"
+    }
+  },
+  "escapes: unknown escapes drop the backslash": {
+    "input": "k=\\a\\b\\c\\d\\e\\g\\z\\0\\9",
+    "props": {
+      "k": "abcdegz09"
+    }
+  },
+  "escapes: escaped backslash": {
+    "input": "k=\\\\",
+    "props": {
+      "k": "\\"
+    }
+  },
+  "escapes: escaped quote chars": {
+    "input": "k=\\\"\\'",
+    "props": {
+      "k": "\"'"
+    }
+  },
+  "escapes: escapes in key": {
+    "input": "\\t\\n\\r\\f\\a=v",
+    "props": {
+      "\t\n\r\fa": "v"
+    }
+  },
+  "escapes: escaped separators in value": {
+    "input": "k=\\=\\:\\ \\#\\!",
+    "props": {
+      "k": "=: #!"
+    }
+  },
+  "escapes: backslash before non-ASCII": {
+    "input": "k=\\é\\❤",
+    "props": {
+      "k": "é❤"
+    }
+  },
+  "escapes: backslash before U+2028": {
+    "input": "k=\\ ",
+    "props": {
+      "k": " "
+    }
+  },
+  "escapes: backslash before NUL": {
+    "input": "k=\\\u0000",
+    "props": {
+      "k": "\u0000"
+    }
+  },
+  "unicode escapes: lowercase hex": {
+    "input": "k=\\u00e9",
+    "props": {
+      "k": "é"
+    }
+  },
+  "unicode escapes: uppercase hex": {
+    "input": "k=\\u00E9",
+    "props": {
+      "k": "é"
+    }
+  },
+  "unicode escapes: mixed case hex": {
+    "input": "k=\\uAbCd",
+    "props": {
+      "k": "ꯍ"
+    }
+  },
+  "unicode escapes: in key": {
+    "input": "\\u0041=v",
+    "props": {
+      "A": "v"
+    }
+  },
+  "unicode escapes: NUL": {
+    "input": "k=\\u0000",
+    "props": {
+      "k": "\u0000"
+    }
+  },
+  "unicode escapes: surrogate pair": {
+    "input": "k=\\uD83D\\uDC51",
+    "props": {
+      "k": "👑"
+    }
+  },
+  "unicode escapes: lone high surrogate": {
+    "input": "k=\\uD83D",
+    "props": {
+      "k": "\ud83d"
+    }
+  },
+  "unicode escapes: lone low surrogate": {
+    "input": "k=\\uDC51",
+    "props": {
+      "k": "\udc51"
+    }
+  },
+  "unicode escapes: escaped separator via unicode is not a separator": {
+    "input": "k\\u003Dx=v",
+    "props": {
+      "k=x": "v"
+    }
+  },
+  "unicode escapes: unicode escaped backslash": {
+    "input": "k=\\u005Cn",
+    "props": {
+      "k": "\\n"
+    }
+  },
+  "unicode escapes: followed by more chars": {
+    "input": "k=\\u00410",
+    "props": {
+      "k": "A0"
+    }
+  },
+  "unicode escapes: uppercase U is not an escape": {
+    "input": "k=\\U0041",
+    "props": {
+      "k": "U0041"
+    }
+  },
+  "unicode escapes: escaped u": {
+    "input": "k=\\\\u0041",
+    "props": {
+      "k": "\\u0041"
+    }
+  },
+  "unicode escapes: malformed: non-hex": {
+    "input": "k=\\u00g1",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "unicode escapes: malformed: too short at end": {
+    "input": "k=\\u12",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "unicode escapes: malformed: empty at end": {
+    "input": "k=\\u",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "unicode escapes: malformed: in key": {
+    "input": "\\uZZZZ=v",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "unicode escapes: malformed: short then separator": {
+    "input": "k\\u12=v",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "unicode escapes: malformed: spans continuation": {
+    "input": "k=\\u00\\\n41",
+    "props": {
+      "k": "A"
+    }
+  },
+  "unicode escapes: malformed: plus sign": {
+    "input": "k=\\u+123",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "unicode escapes: malformed: fullwidth digits": {
+    "input": "k=\\u００４１",
+    "throws": "Error",
+    "message": "Malformed \\uxxxx encoding."
+  },
+  "raw characters: non-ASCII key and value": {
+    "input": "clé=valeur é ❤",
+    "props": {
+      "clé": "valeur é ❤"
+    }
+  },
+  "raw characters: emoji (surrogate pair)": {
+    "input": "k=👑",
+    "props": {
+      "k": "👑"
+    }
+  },
+  "raw characters: lone surrogate": {
+    "input": "k=\ud83d",
+    "props": {
+      "k": "\ud83d"
+    }
+  },
+  "raw characters: NUL char": {
+    "input": "k=a\u0000b",
+    "props": {
+      "k": "a\u0000b"
+    }
+  },
+  "raw characters: control chars": {
+    "input": "k=\u0001\u001f",
+    "props": {
+      "k": "\u0001\u001f"
+    }
+  },
+  "raw characters: BOM is not stripped": {
+    "input": "﻿k=v",
+    "props": {
+      "﻿k": "v"
+    }
+  },
+  "raw characters: BOM on second line": {
+    "input": "a=1\n﻿k=v",
+    "props": {
+      "a": "1",
+      "﻿k": "v"
+    }
+  },
+  "raw characters: non-breaking space is not whitespace": {
+    "input": " k=v",
+    "props": {
+      " k": "v"
+    }
+  },
+  "raw characters: fullwidth equals is not a separator": {
+    "input": "k＝v",
+    "props": {
+      "k＝v": ""
+    }
+  },
+  "keys: duplicate keys: last wins": {
+    "input": "k=1\nk=2\nk=3",
+    "props": {
+      "k": "3"
+    }
+  },
+  "keys: duplicate via escapes": {
+    "input": "k=1\n\\k=2",
+    "props": {
+      "k": "2"
+    }
+  },
+  "keys: proto-like keys": {
+    "input": "__proto__=a\nconstructor=b\nhasOwnProperty=c\ntoString=d",
+    "props": {
+      "__proto__": "a",
+      "constructor": "b",
+      "hasOwnProperty": "c",
+      "toString": "d"
+    }
+  },
+  "keys: numeric keys": {
+    "input": "2=b\n10=c\n1=a\n-1=d\n01=e",
+    "props": {
+      "1": "a",
+      "2": "b",
+      "10": "c",
+      "-1": "d",
+      "01": "e"
+    }
+  },
+  "keys: long key and value": {
+    "input": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk=vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+    "props": {
+      "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk": "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+    }
+  },
+  "keys: long line before short lines": {
+    "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=y\na=\\",
+    "props": {
+      "a": "",
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx": "y"
+    }
+  }
+}

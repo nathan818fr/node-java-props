@@ -1,0 +1,2 @@
+# pnpm settings (single-package repository)
+minimumReleaseAge: 10080 # minutes (7 days): don't install freshly published versions

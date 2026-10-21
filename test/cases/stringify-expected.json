@@ -1,0 +1,205 @@
+{
+  "cases": {
+    "empty": {
+      "props": {},
+      "writer": "",
+      "stream": ""
+    },
+    "simple": {
+      "props": {
+        "a": "1",
+        "b": "two words"
+      },
+      "writer": "a=1\nb=two words\n",
+      "stream": "a=1\nb=two words\n"
+    },
+    "order": {
+      "props": {
+        "2": "4",
+        "10": "3",
+        "b": "1",
+        "a": "2",
+        "B": "5",
+        "é": "6",
+        "": "7"
+      },
+      "writer": "=7\n10=3\n2=4\nB=5\na=2\nb=1\né=6\n",
+      "stream": "=7\n10=3\n2=4\nB=5\na=2\nb=1\n\\u00E9=6\n"
+    },
+    "separators and comment chars": {
+      "props": {
+        "k=:#!": "v=:#!",
+        "=": ":",
+        "#": "!"
+      },
+      "writer": "\\#=\\!\n\\==\\:\nk\\=\\:\\#\\!=v\\=\\:\\#\\!\n",
+      "stream": "\\#=\\!\n\\==\\:\nk\\=\\:\\#\\!=v\\=\\:\\#\\!\n"
+    },
+    "spaces": {
+      "props": {
+        " k e y ": " v a l u e ",
+        "  ": "  ",
+        "tab": "\t",
+        "ff": "\f"
+      },
+      "writer": "\\ \\ =\\  \n\\ k\\ e\\ y\\ =\\ v a l u e \nff=\\f\ntab=\\t\n",
+      "stream": "\\ \\ =\\  \n\\ k\\ e\\ y\\ =\\ v a l u e \nff=\\f\ntab=\\t\n"
+    },
+    "line terminators": {
+      "props": {
+        "a\nb": "c\rd",
+        "e\r\n": "\n\n"
+      },
+      "writer": "a\\nb=c\\rd\ne\\r\\n=\\n\\n\n",
+      "stream": "a\\nb=c\\rd\ne\\r\\n=\\n\\n\n"
+    },
+    "backslashes": {
+      "props": {
+        "\\": "\\\\",
+        "a\\b": "c\\"
+      },
+      "writer": "\\\\=\\\\\\\\\na\\\\b=c\\\\\n",
+      "stream": "\\\\=\\\\\\\\\na\\\\b=c\\\\\n"
+    },
+    "control chars": {
+      "props": {
+        "\u0000": "\u0001\u001f",
+        "del": "",
+        "vt": "\u000b"
+      },
+      "writer": "\u0000=\u0001\u001f\ndel=\nvt=\u000b\n",
+      "stream": "\\u0000=\\u0001\\u001F\ndel=\\u007F\nvt=\\u000B\n"
+    },
+    "non-ASCII": {
+      "props": {
+        "clé": "é ÿ",
+        "Ā": "❤ 👑",
+        "bom": "﻿",
+        "nbsp": " ",
+        "lone": "\ud83d",
+        "ls": " "
+      },
+      "writer": "bom=﻿\nclé=é ÿ\nlone=\ud83d\nls= \nnbsp= \nĀ=❤ 👑\n",
+      "stream": "bom=\\uFEFF\ncl\\u00E9=\\u00E9 \\u00FF\nlone=\\uD83D\nls=\\u2028\nnbsp=\\u00A0\n\\u0100=\\u2764 \\uD83D\\uDC51\n"
+    },
+    "proto-like keys": {
+      "props": {
+        "__proto__": "a",
+        "constructor": "b"
+      },
+      "writer": "__proto__=a\nconstructor=b\n",
+      "stream": "__proto__=a\nconstructor=b\n"
+    },
+    "comments: simple": {
+      "props": {
+        "k": "v"
+      },
+      "comments": "Generated file",
+      "writer": "#Generated file\nk=v\n",
+      "stream": "#Generated file\nk=v\n"
+    },
+    "comments: empty": {
+      "props": {},
+      "comments": "",
+      "writer": "#\n",
+      "stream": "#\n"
+    },
+    "comments: multi-line": {
+      "props": {},
+      "comments": "line 1\nline 2\r\nline 3\rline 4",
+      "writer": "#line 1\n#line 2\n#line 3\n#line 4\n",
+      "stream": "#line 1\n#line 2\n#line 3\n#line 4\n"
+    },
+    "comments: line starting with # or !": {
+      "props": {},
+      "comments": "a\n# b\n! c\n  # d",
+      "writer": "#a\n# b\n! c\n#  # d\n",
+      "stream": "#a\n# b\n! c\n#  # d\n"
+    },
+    "comments: trailing line terminators": {
+      "props": {},
+      "comments": "a\n",
+      "writer": "#a\n#\n",
+      "stream": "#a\n#\n"
+    },
+    "comments: CRLF and CR at the end": {
+      "props": {},
+      "comments": "a\r\n\r",
+      "writer": "#a\n#\n#\n",
+      "stream": "#a\n#\n#\n"
+    },
+    "comments: non-ASCII": {
+      "props": {},
+      "comments": "é ÿ Ā ❤ 👑 \u0000 \t",
+      "writer": "#é ÿ \\u0100 \\u2764 \\uD83D\\uDC51 \u0000 \t\n",
+      "stream": "#é ÿ \\u0100 \\u2764 \\uD83D\\uDC51 \u0000 \t\n"
+    }
+  },
+  "dates": {
+    "UTC": {
+      "time": 1768482245678,
+      "timeZone": "UTC",
+      "java": "Thu Jan 15 13:04:05 UTC 2026"
+    },
+    "fixed positive offset": {
+      "time": 1768482245678,
+      "timeZone": "+02:00",
+      "java": "Thu Jan 15 15:04:05 GMT+02:00 2026"
+    },
+    "fixed negative offset": {
+      "time": 1768482245678,
+      "timeZone": "-09:30",
+      "java": "Thu Jan 15 03:34:05 GMT-09:30 2026"
+    },
+    "fixed zero offset": {
+      "time": 1768482245678,
+      "timeZone": "+00:00",
+      "java": "Thu Jan 15 13:04:05 GMT+00:00 2026"
+    },
+    "day change": {
+      "time": 1798759800000,
+      "timeZone": "+01:00",
+      "java": "Fri Jan 01 00:30:00 GMT+01:00 2027"
+    },
+    "single digit day": {
+      "time": 1770080523000,
+      "timeZone": "UTC",
+      "java": "Tue Feb 03 01:02:03 UTC 2026"
+    },
+    "America/New_York winter": {
+      "time": 1768482245678,
+      "timeZone": "America/New_York",
+      "java": "Thu Jan 15 08:04:05 EST 2026"
+    },
+    "America/New_York summer": {
+      "time": 1784120645678,
+      "timeZone": "America/New_York",
+      "java": "Wed Jul 15 09:04:05 EDT 2026"
+    },
+    "Europe/Paris winter": {
+      "time": 1768482245678,
+      "timeZone": "Europe/Paris",
+      "java": "Thu Jan 15 14:04:05 CET 2026"
+    },
+    "Europe/Paris summer": {
+      "time": 1784120645678,
+      "timeZone": "Europe/Paris",
+      "java": "Wed Jul 15 15:04:05 CEST 2026"
+    },
+    "Europe/London winter": {
+      "time": 1768482245678,
+      "timeZone": "Europe/London",
+      "java": "Thu Jan 15 13:04:05 GMT 2026"
+    },
+    "Europe/London summer": {
+      "time": 1784120645678,
+      "timeZone": "Europe/London",
+      "java": "Wed Jul 15 14:04:05 BST 2026"
+    },
+    "America/Sao_Paulo (no name in Java)": {
+      "time": 1768482245678,
+      "timeZone": "America/Sao_Paulo",
+      "java": "Thu Jan 15 10:04:05 GMT-03:00 2026"
+    }
+  }
+}

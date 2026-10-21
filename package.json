@@ -1,7 +1,7 @@
 {
   "name": "java-props",
   "version": "2.3.1",
-  "description": "Read Java .properties files (using the same specification), without useless additional features.",
+  "description": "Read and write Java .properties files, with the syntax of Java's Properties.load().",
   "author": "Nathan Poirier <nathan@poirier.io>",
   "license": "MIT",
   "keywords": [
@@ -13,33 +13,32 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nathan818fr/node-java-props.git"
+    "url": "git+https://github.com/nathan818fr/node-java-props.git"
   },
   "files": [
     "dist/**"
   ],
   "main": "dist/node-java-props.js",
   "browser": "dist/java-props.js",
+  "sideEffects": false,
   "scripts": {
-    "clean": "rimraf ./dist",
-    "build": "yarn run clean && yarn run build:ts",
-    "build:ts": "tsc",
-    "lint": "tslint -c ./tslint.json -p ./tsconfig.json",
-    "format": "prettier -w ./src \"./test/**.ts\" \"*.md\" \"*.json\" \"*.js\" \"*.yml\"",
-    "test": "jest --coverage --verbose",
-    "test:watch": "yarn run test -- --watchAll",
-    "release": "yarn run lint && yarn run build && np"
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "pnpm run clean && tsc -p tsconfig.build.json",
+    "lint": "biome check && tsc -p tsconfig.json",
+    "format": "biome check --write",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "pretest:compat": "pnpm run build",
+    "test:compat": "node test/compat/run-smoke.js && node test/compat/check-esm.mjs && node test/compat/check-package.mjs",
+    "reference:gen": "node tools/gen-expected.mts",
+    "reference:check": "node tools/gen-expected.mts --check",
+    "reference:fuzz": "pnpm run build && node tools/fuzz.mts"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
-    "@types/node": "^12.7.11",
-    "jest": "^24.9.0",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^24.3.0",
-    "tslint": "^5.20.1",
-    "typescript": "^3.9.10"
-  },
-  "resolutions": {
-    "stack-utils": "1.0.2"
+    "@types/node": "^26.6.5",
+    "@vitest/coverage-v8": "^5.0.4",
+    "fast-check": "^4.10.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.4"
   }
 }

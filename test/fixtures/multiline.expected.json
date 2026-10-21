@@ -1,0 +1,18 @@
+{
+  "after.windows.dir": "not part of the previous value",
+  "bang.continuation": "start! not a comment",
+  "empty.value": "",
+  "escape.across.lines": "tab\tseparated",
+  "greeting": "Hello, World!",
+  "hash.continuation": "start# not a comment",
+  "indented.entry": "first second",
+  "indented.key.continued": "value",
+  "key with spaces": "value with trailing spaces   ",
+  "last": "end",
+  "odd.backslashes": "a\\b",
+  "only.key": "",
+  "path": "/usr/local/bin:/usr/bin:/bin",
+  "unicode.across.lines": "café au lait",
+  "whitespace.kinds": "onetwo",
+  "windows.dir": "C:\\Program Files\\"
+}
